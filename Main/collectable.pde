@@ -1,11 +1,13 @@
 class Collectable {
   private String name;
   private String gameObjectImageFile;
+  private PImage gameObjectImage;
   //Could be expanded to add an amount, for example
   
   public Collectable(String name, String gameObjectImageFile) {
     this.name = name;
     this.gameObjectImageFile = gameObjectImageFile;
+    this.gameObjectImage = loadImage(gameObjectImageFile);
   }
   
   public String getName() { 

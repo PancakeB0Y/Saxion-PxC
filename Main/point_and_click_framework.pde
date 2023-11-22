@@ -1,8 +1,10 @@
-int wwidth = 800;
+int wwidth = 1000;
 int wheight = 800;
+int inventoryWidth = 200;
 
 final SceneManager sceneManager = new SceneManager();
 final InventoryManager inventoryManager = new InventoryManager();
+InventoryDisplay inventoryDisplay;
 
 void settings()
 {
@@ -11,10 +13,12 @@ void settings()
 
 void setup()
 {
+  inventoryDisplay = new InventoryDisplay("inventory.png");
+  
   Collectable apple = new Collectable("apple", "back04_apple.png");
   MoveToSceneObject object7 = new MoveToSceneObject("goToScene04_scene01", 206, 461, 50, 50, "arrowUp.png", "scene04");
   
-  Scene scene01 = new Scene("scene01", "back01.png");
+  Scene scene01 = new Scene("scene01", "back01.png", true);
   RequireObject loupe01 = new RequireObject("requiresApple_scene01", 206, 461, 50, 50, "zoom.png", "You need an Apple before getting here!", apple, object7);
   loupe01.setHoverImage("zoomIn.png");
   scene01.addGameObject(loupe01);
@@ -41,6 +45,14 @@ void setup()
   CollectableObject object6 = new CollectableObject("apple_scene03", 325, 366, 123, 101, apple);
   scene03.addGameObject(object6);
   
+  Collectable pear = new Collectable("pear", "pear.png");
+  CollectableObject object13 = new CollectableObject("pear", 500, 500, 123, 101, pear);
+  scene03.addGameObject(object13);
+  
+  Collectable apple3 = new Collectable("apple3", "back04_apple.png");
+  CollectableObject object14 = new CollectableObject("apple_scene03_3", 200, 200, 123, 101, apple3);
+  scene03.addGameObject(object14);
+  
   Scene scene04 = new Scene("scene04", "back03.png");
   TextObject endGame = new TextObject("smallText_scene04", 430, 590, 50, 50, "medal1.png", "Congratulations. You finished the game!");
   scene04.addGameObject(endGame);
@@ -64,9 +76,10 @@ void setup()
 
 void draw()
 {
-  sceneManager.getCurrentScene().draw(wwidth, wheight);
+  sceneManager.getCurrentScene().draw();
   sceneManager.getCurrentScene().updateScene();
   inventoryManager.clearMarkedForDeathCollectables();
+  inventoryDisplay.draw();
 }
 
 void mouseMoved() {
