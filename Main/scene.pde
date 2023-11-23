@@ -14,7 +14,7 @@ class Scene {
 
   public Scene(String sceneName, String backgroundImageFile, boolean displayInventory) {
     this.sceneName = sceneName;
-    this.backgroundImage = loadImage(backgroundImageFile);
+    this.backgroundImage = backgroundImageFile != "" ? loadImage(backgroundImageFile) : null;
     this.displayInventory = displayInventory;
     gameObjects = new ArrayList<GameObject>();
     markedForDeathGameObjects = new ArrayList<GameObject>();
@@ -46,13 +46,21 @@ class Scene {
 
   public void draw() {
     if (displayInventory) {
-      image(backgroundImage, 0, 0, wwidth - inventoryWidth, wheight);
+      if (backgroundImage!=null) {
+        image(backgroundImage, 0, 0, wwidth - inventoryWidth, wheight);
+      } else {
+        background(100);
+      }
       for (GameObject object : gameObjects) {
         object.draw();
       }
       inventoryDisplay.draw();
     } else {
-      image(backgroundImage, 0, 0, wwidth, wheight);
+      if (backgroundImage!=null) {
+        image(backgroundImage, 0, 0, wwidth, wheight);
+      } else {
+        background(100);
+      }
       for (GameObject object : gameObjects) {
         object.draw();
       }
