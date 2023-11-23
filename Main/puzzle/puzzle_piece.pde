@@ -3,6 +3,7 @@ class puzzlePiece {
   boolean dragging;
   PImage Piece;
   int Id;
+  
   puzzlePiece(int id, int col, int row, PImage piece) {
     Id = id;
     x = col * gridSize;
@@ -11,13 +12,10 @@ class puzzlePiece {
   }
 
   void display() {
-
-
     image(Piece, x, y);
   }
 
   boolean contains(float mx, float my) {
-
     return mx > x && mx < x + gridSize && my > y && my < y + gridSize;
   }
 
@@ -30,14 +28,12 @@ class puzzlePiece {
     int row = constrain(floor(mouseY / gridSize), 0, rows - 1);
     x = col * gridSize;
     y = row * gridSize;
+    grid[col][row] = Id;
     dragging = false;
   }
-
-
-
+  
   void update() {
     if (dragging) {
-
       x = mouseX - gridSize / 2;
       y = mouseY - gridSize / 2;
     }

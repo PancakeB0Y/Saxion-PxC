@@ -13,34 +13,40 @@ void setup() {
   cols = width / gridSize;
   rows = height / gridSize;
   
-  // Initialisatie van het grid
+  // Initialization of the grid
   grid = new int[cols][rows];
 
-  
-  //for (int r = 0; r < rows; r++) {
-   // for (int c = 0; c < cols; c++) {
-   //   int i = (int)random(0, Images.size());
-     // rectangles.add(new puzzlePiece(0, c, r, Images.get(i)));
-     // Images.remove(i);
-    //}
-  //}
-  rectangles.add(new puzzlePiece(0, 2, 2, Images.get(7)));
+  for (int r = 0; r < rows; r++) {
+    for (int c = 0; c < cols; c++) {
+      int i = CheckpuzzlePiece(r, c);
+      grid[c][r] = i;
+      
+      rectangles.add(new puzzlePiece(i, c, r, Images.get(i)));
+      
+    }
+  }
+}
+
+int CheckpuzzlePiece(int r, int c) {
+  int i = (int)random(0, Images.size());
+  for (puzzlePiece rect : rectangles) {
+    if (i == rect.Id) {
+     i = CheckpuzzlePiece(r, c);
+    }
+  }      
+  return  i; 
 }
 
 void draw() {
   background(255);
-  
-  // Teken het grid
   drawGrid();
   
-  // Teken de te slepen vierkanten
   for (puzzlePiece rect : rectangles) {
     rect.display();
   }
 }
 
 void drawGrid() {
-  // Teken het grid
   for (int i = 0; i < cols; i++) {
     for (int j = 0; j < rows; j++) {
       fill(200);
@@ -51,7 +57,7 @@ void drawGrid() {
 
 float tempX, tempY;
 
-void mousePressed() { 
+void mousePressed() {
   
   // Check whether the mouse click is within one of the squares
   for (puzzlePiece rect : rectangles) {
@@ -64,20 +70,36 @@ void mousePressed() {
 }
 
 void mouseReleased() {
-  // Stop dragging all squares when the mouse button is released
+  
+  // Stop dragging all squares when the mouse button is released 
   for (puzzlePiece rect : rectangles) {
     if (rect.contains(mouseX, mouseY)) {
       if(!rect.dragging){
         rect.x = tempX;
         rect.y = tempY;
+        grid[(int)tempX / gridSize][(int)tempY / gridSize] = rect.Id;    
+
       } else {
-      rect.stopDragging();
+        rect.stopDragging();
       }
-      
-      
+       
     }
-    
   }
+  
+  int WinConditionCheck = 0;
+  boolean won = true;
+  for (int r = 0; r < rows; r++) {
+    for (int c = 0; c < cols; c++) {
+      if(WinConditionCheck++ != grid[c][r])
+      {
+        won = false;
+      }
+    }
+  }
+  
+  if(won){    
+    println("you have won the end");
+  }  
 }
 
 void mouseDragged() {
