@@ -29,6 +29,7 @@ class MoveToSceneObject extends GameObject {
         sceneManager.goToPreviousScene();
       } else {
         try {
+          whooshSound.play();
           sceneManager.goToScene(nextSceneIdentifier);
         } catch(Exception e) { 
           println(e.getMessage());

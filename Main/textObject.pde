@@ -17,9 +17,9 @@ class TextObject extends GameObject {
     super.draw();
     if(displayText) {
       fill(255);
-      rect(this.x, this.y, textWidth + 30, textHeight, 8);
+      rect(this.x + 30, this.y - 30, textWidth + 30, textHeight, 8);
       fill(0);
-      text(text, this.x + 15, this.y + 15, textWidth, textHeight); 
+      text(text, this.x + 45, this.y - 15, textWidth, textHeight); 
     }
   }
   @Override
