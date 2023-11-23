@@ -6,6 +6,8 @@ ArrayList<PImage> Images = new ArrayList<PImage>();
 
 void setup() {
   size(400, 400);
+  
+ // resize(gridSize, gridSize);
   Images();
   // Determine the number of columns and rows based on the size of the screen and grid
   cols = width / gridSize;

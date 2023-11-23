@@ -26,8 +26,8 @@ class puzzlePiece {
   }
 
   void stopDragging() {
-    int col = constrain(floor((mouseX + gridSize / 2) / gridSize), 0, cols - 1);
-    int row = constrain(floor((mouseY + gridSize / 2) / gridSize), 0, rows - 1);
+    int col = constrain(floor(mouseX / gridSize), 0, cols - 1);
+    int row = constrain(floor(mouseY / gridSize), 0, rows - 1);
     x = col * gridSize;
     y = row * gridSize;
     dragging = false;
