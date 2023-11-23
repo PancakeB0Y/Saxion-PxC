@@ -3,12 +3,16 @@ import java.util.Map;
 class InventoryDisplay {
   private PImage inventoryImage;
   private int collectablePlacement;
+  private boolean hold;
   private Collectable beingDragged;
+  private Collectable dropped;
 
   InventoryDisplay(String inventoryImageFile) {
     this.inventoryImage = loadImage(inventoryImageFile);
     collectablePlacement = wwidth - inventoryWidth + 35;
+    hold = false;
     beingDragged = null;
+    dropped = null;
   }
 
   public void draw() {
@@ -25,13 +29,15 @@ class InventoryDisplay {
   public void mousePressed() {
     Collectable collectable = returnCollectableOnMouse();
     if (collectable != null) {
-      println(collectable.name);
+      hold = true;
       beingDragged = collectable;
     }
   }
 
   public void mouseReleased() {
+    dropped = beingDragged;
     beingDragged = null;
+    hold = false;
   }
 
   public Collectable returnCollectableOnMouse() {

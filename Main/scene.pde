@@ -75,11 +75,14 @@ class Scene {
     if (displayInventory) {
       inventoryDisplay.mouseReleased();
     }
+    for (GameObject object : gameObjects) {
+      object.mouseReleased();
+    }
   }
 
   public void mouseDragged() {
-    if (displayInventory) {
-      //inventoryDisplay.mouseDragged();
+    for (GameObject object : gameObjects) {
+      object.mouseDragged();
     }
   }
 
