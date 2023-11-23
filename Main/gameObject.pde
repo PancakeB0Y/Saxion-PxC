@@ -52,6 +52,8 @@ class GameObject {
   }
   
   public void mouseClicked() { }
+  public void mouseReleased() { }
+  public void mouseDragged() { }
   
   public String getIdentifier() {
     return this.identifier;
