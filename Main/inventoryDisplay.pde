@@ -5,14 +5,12 @@ class InventoryDisplay {
   private int collectablePlacement;
   private boolean hold;
   private Collectable beingDragged;
-  private Collectable dropped;
 
   InventoryDisplay(String inventoryImageFile) {
     this.inventoryImage = loadImage(inventoryImageFile);
     collectablePlacement = wwidth - inventoryWidth + 35;
     hold = false;
     beingDragged = null;
-    dropped = null;
   }
 
   public void draw() {
@@ -35,7 +33,6 @@ class InventoryDisplay {
   }
 
   public void mouseReleased() {
-    dropped = beingDragged;
     beingDragged = null;
     hold = false;
   }

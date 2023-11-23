@@ -1,3 +1,5 @@
+import processing.sound.*;
+
 int wwidth = 1000;
 int wheight = 800;
 int inventoryWidth = 200;
@@ -6,6 +8,10 @@ final SceneManager sceneManager = new SceneManager();
 final InventoryManager inventoryManager = new InventoryManager();
 InventoryDisplay inventoryDisplay;
 
+SoundFile interactSound;
+SoundFile breakSound;
+SoundFile whooshSound;
+
 void settings()
 {
   size(wwidth, wheight);
@@ -13,6 +19,10 @@ void settings()
 
 void setup()
 {
+  interactSound = new SoundFile(this, "interact.wav");
+  breakSound = new SoundFile(this, "whoosh.wav");
+  whooshSound = new SoundFile(this, "whooshBig.wav");
+  
   inventoryDisplay = new InventoryDisplay("inventory.png");
   
   Scene scene01 = new Scene("scene01", "");

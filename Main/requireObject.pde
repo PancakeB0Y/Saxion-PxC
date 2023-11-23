@@ -28,6 +28,7 @@ class RequireObject extends TextObject {
 
   public void mouseReleased() {
     if (requiredCollectableOnTop) {
+      breakSound.play();
       inventoryManager.removeCollectable(collectable);
       sceneManager.getCurrentScene().removeGameObject(this);
       sceneManager.getCurrentScene().addGameObject(replaceWith);
