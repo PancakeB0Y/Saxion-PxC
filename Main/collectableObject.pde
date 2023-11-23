@@ -29,7 +29,6 @@ class CollectableObject extends GameObject {
   public void mouseClicked() {
     if(mouseIsHovering) {
       inventoryManager.addCollectable(collectable);
-      inventoryDisplay.collectableImages.put(collectable.name, collectable.gameObjectImage);
       sceneManager.getCurrentScene().removeGameObject(this);
       if(willReplaceByAnotherGameObject) {
         sceneManager.getCurrentScene().addGameObject(replaceWith);  

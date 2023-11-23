@@ -9,7 +9,7 @@ class Scene {
   private boolean displayInventory;
 
   public Scene(String sceneName, String backgroundImageFile) {
-    this(sceneName, backgroundImageFile, false);
+    this(sceneName, backgroundImageFile, true);
   }
 
   public Scene(String sceneName, String backgroundImageFile, boolean displayInventory) {
@@ -47,11 +47,15 @@ class Scene {
   public void draw() {
     if (displayInventory) {
       image(backgroundImage, 0, 0, wwidth - inventoryWidth, wheight);
+      for (GameObject object : gameObjects) {
+        object.draw();
+      }
+      inventoryDisplay.draw();
     } else {
       image(backgroundImage, 0, 0, wwidth, wheight);
-    }
-    for (GameObject object : gameObjects) {
-      object.draw();
+      for (GameObject object : gameObjects) {
+        object.draw();
+      }
     }
   }
 
@@ -64,6 +68,24 @@ class Scene {
   public void mouseClicked() {
     for (GameObject object : gameObjects) {
       object.mouseClicked();
+    }
+  }
+
+  public void mouseReleased() {
+    if (displayInventory) {
+      inventoryDisplay.mouseReleased();
+    }
+  }
+
+  public void mouseDragged() {
+    if (displayInventory) {
+      //inventoryDisplay.mouseDragged();
+    }
+  }
+
+  public void mousePressed() {
+    if (displayInventory) {
+      inventoryDisplay.mousePressed();
     }
   }
 

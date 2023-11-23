@@ -14,7 +14,6 @@ class RequireObject extends TextObject {
     public void mouseClicked() {
     if (mouseIsHovering && inventoryManager.containsCollectable(collectable)) {
       inventoryManager.removeCollectable(collectable);
-      inventoryDisplay.collectableImages.remove(collectable.name);
       sceneManager.getCurrentScene().removeGameObject(this);
       sceneManager.getCurrentScene().addGameObject(replaceWith);
     } else {
