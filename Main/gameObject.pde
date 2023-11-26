@@ -58,8 +58,13 @@ class GameObject {
       mouseIsHovering = true;
     }
   }
+
+  public void mousePressed() {
+  }
+
   public void mouseReleased() {
   }
+
   public void mouseDragged() {
   }
 

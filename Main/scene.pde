@@ -95,6 +95,9 @@ class Scene {
   }
 
   public void mousePressed() {
+    for (GameObject object : gameObjects) {
+      object.mousePressed();
+    }
     if (displayInventory) {
       inventoryDisplay.mousePressed();
     }
