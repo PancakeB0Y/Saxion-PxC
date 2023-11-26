@@ -11,6 +11,7 @@ InventoryDisplay inventoryDisplay;
 SoundFile interactSound;
 SoundFile breakSound;
 SoundFile whooshSound;
+SoundFile beatenPuzzleSound;
 
 void settings()
 {
@@ -25,6 +26,8 @@ void setup()
   breakSound.amp(0.5);
   whooshSound = new SoundFile(this, "whooshBig.wav");
   whooshSound.amp(0.1);
+  beatenPuzzleSound = new SoundFile(this, "sparkling.wav");
+  beatenPuzzleSound.amp(0.1);
 
   inventoryDisplay = new InventoryDisplay("inventory.png");
 
@@ -55,10 +58,14 @@ void setup()
   RequireObject inspectDoor1 = new RequireObject("inspectDoor1", 120, 420, 50, 50, "", "This door is locked", null, null);
   RequireObject inspectDoor2 = new RequireObject("inspectDoor2", 450, 350, 50, 50, "", "This door is locked", null, null);
   MoveToSceneObject moveToScene04 = new MoveToSceneObject("goToScene04_scene03", 760, 450, 50, 50, "", "scene04");
+  CollectableObject tempStone = new CollectableObject("stone_scene03", 550, 250, 50, 50, stone);
+  MosaicPuzzle mosaic = new MosaicPuzzle("mosaic", 300, 200, 400, 400, "mozaic.png");
+  CloseUpObject mosaicObject = new CloseUpObject("testMinigameObject", 550, 250, 50, 50, "mozaic.png", mosaic, tempStone);
   scene03.addGameObject(goBackScene02);
   scene03.addGameObject(inspectDoor1);
   scene03.addGameObject(inspectDoor2);
   scene03.addGameObject(moveToScene04);
+  scene03.addGameObject(mosaicObject);
 
   Scene scene04 = new Scene("scene04", "scene04.jpg");
   MoveToSceneObject goBackScene03 = new MoveToSceneObject("goBack_scene03", width/2 - 100, 740, 50, 50, "arrowDown.png", true);

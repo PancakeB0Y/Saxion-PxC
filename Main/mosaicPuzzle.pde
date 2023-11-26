@@ -1,25 +1,17 @@
-class MosaicPuzzle {
-  int x;
-  int y;
-  int mWidth;
-  int mHeight;
+class MosaicPuzzle extends CloseUp {
   int gridSize;
   int cols;
   int rows;
   int[][] grid;
-  boolean isOpened;
-  boolean won;
-  ArrayList<String> pieceImageFiles = new ArrayList<String>();
+  PImage image;
+  ArrayList<PImage> pieceImages = new ArrayList<PImage>();
   ArrayList<MosaicPiece> pieces = new ArrayList<MosaicPiece>();
 
   float tempX = 0;
   float tempY = 0;
 
-  MosaicPuzzle(int x, int y, int mWidth, int mHeight) {
-    this.x = x;
-    this.y = y;
-    this.mWidth = mWidth;
-    this.mHeight = mHeight;
+  MosaicPuzzle(String name, int x, int y, int mWidth, int mHeight, String minigameImageFile) {
+    super( name, x, y, mWidth, mHeight, minigameImageFile);
     gridSize = this.mWidth/4;
 
     cols = this.mWidth / gridSize;
@@ -27,38 +19,34 @@ class MosaicPuzzle {
 
     grid = new int[cols][rows];
 
-    isOpened = false;
-    won = false;
-
-    pieceImageFiles.add("0.png");
-    pieceImageFiles.add("1.png");
-    pieceImageFiles.add("2.png");
-    pieceImageFiles.add("3.png");
-    pieceImageFiles.add("4.png");
-    pieceImageFiles.add("5.png");
-    pieceImageFiles.add("6.png");
-    pieceImageFiles.add("7.png");
-    pieceImageFiles.add("8.png");
-    pieceImageFiles.add("9.png");
-    pieceImageFiles.add("10.png");
-    pieceImageFiles.add("11.png");
-    pieceImageFiles.add("12.png");
-    pieceImageFiles.add("13.png");
-    pieceImageFiles.add("14.png");
-    pieceImageFiles.add("15.png");
+    //splits the image into smaller rectangles
+    for (int row = 0; row < rows; row++) {
+      for (int column = 0; column < cols; column++) {
+        PImage sprite = createImage (gridSize, gridSize, ARGB);
+        sprite.copy(
+          closeUpImage,
+          column * gridSize,
+          row * gridSize,
+          gridSize,
+          gridSize,
+          0, 0, gridSize, gridSize
+          );
+        pieceImages.add(sprite);
+      }
+    }
 
     for (int r = 0; r < rows; r++) {
       for (int c = 0; c < cols; c++) {
         int i = checkPuzzlePiece(r, c);
         grid[c][r] = i;
 
-        pieces.add(new MosaicPiece(i, c, r, pieceImageFiles.get(i), this));
+        pieces.add(new MosaicPiece(i, c, r, pieceImages.get(i), this));
       }
     }
   }
 
   int checkPuzzlePiece(int r, int c) {
-    int i = (int)random(0, pieceImageFiles.size());
+    int i = (int)random(0, pieceImages.size());
     for (MosaicPiece piece : pieces) {
       if (i == piece.id) {
         i = checkPuzzlePiece(r, c);
@@ -68,6 +56,10 @@ class MosaicPuzzle {
   }
 
   void draw() {
+    if (!isOpen) {
+      return;
+    }
+
     drawGrid();
 
     for (MosaicPiece piece : pieces) {
@@ -84,12 +76,15 @@ class MosaicPuzzle {
     for (int i = 0; i < cols; i++) {
       for (int j = 0; j < rows; j++) {
         fill(200);
-        rect(i * gridSize + x, j * gridSize + y, gridSize , gridSize);
+        rect(i * gridSize + x, j * gridSize + y, gridSize, gridSize);
       }
     }
   }
 
   void mousePressed() {
+    if (!isOpen || isWon) {
+      return;
+    }
     // Check whether the mouse click is within one of the squares
     for (MosaicPiece piece : pieces) {
       if (piece.contains(mouseX, mouseY)) {
@@ -101,6 +96,10 @@ class MosaicPuzzle {
   }
 
   void mouseReleased() {
+    if (!isOpen || isWon) {
+      return;
+    }
+
     // Stop dragging all squares when the mouse button is released
     for (MosaicPiece piece : pieces) {
       if (piece.contains(mouseX, mouseY)) {
@@ -111,6 +110,10 @@ class MosaicPuzzle {
         } else {
           piece.stopDragging();
         }
+      } else if (piece.dragging) {
+        piece.x = tempX;
+        piece.y = tempY;
+        piece.dragging = false;
       }
     }
 
@@ -126,12 +129,16 @@ class MosaicPuzzle {
     }
 
     if (hasWon) {
-      won = true;
-      println("you have won the end");
+      isWon = true;
+      println("mosaic beaten");
+      beatenPuzzleSound.play();
     }
   }
 
   void mouseDragged() {
+    if (!isOpen || isWon) {
+      return;
+    }
     // Drag the squares that are currently being dragged
     for (MosaicPiece piece : pieces) {
       piece.update();

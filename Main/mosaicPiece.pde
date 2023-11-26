@@ -7,13 +7,13 @@ class MosaicPiece {
   int gridSize;
   MosaicPuzzle parent;
 
-  MosaicPiece(int id, int col, int row, String pieceImageFile, MosaicPuzzle parent) {
+  MosaicPiece(int id, int col, int row, PImage pieceImage, MosaicPuzzle parent) {
     this.id = id;
     this.parent = parent;
     this.gridSize = parent.gridSize;
     x = col * gridSize + parent.x;
     y = row * gridSize + parent.y;
-    pieceImage = loadImage(pieceImageFile);
+    this.pieceImage = pieceImage;
     pieceImage.resize(gridSize, gridSize);
   }
 
