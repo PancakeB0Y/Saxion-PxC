@@ -1,39 +1,63 @@
 class TextObject extends GameObject {
   private String text;
+  private String backgroundImageFile;
+  private PImage backgroundImage;
+  private boolean hasBackground;
   private boolean displayText;
   private float textWidth;
   private float textHeight;
-  
-  public TextObject(String identifier, int x, int y, int owidth, 
-                    int oheight, String gameObjectImageFile, String text) {
+  private float textSize;
+
+  public TextObject(String identifier, int x, int y, int owidth,
+    int oheight, String gameObjectImageFile, String text) {
+    this(identifier, x, y, owidth, oheight, gameObjectImageFile, text, "");
+  }
+
+  public TextObject(String identifier, int x, int y, int owidth,
+    int oheight, String gameObjectImageFile, String text, String backgroundImageFile) {
     super(identifier, x, y, owidth, oheight, gameObjectImageFile);
     this.text = text;
+    hasBackground = !backgroundImageFile.equals("");
+    if (hasBackground) {
+      backgroundImage = loadImage(backgroundImageFile);
+    }
     displayText = false;
-    calculateTextArea(); //Automatically calculates the area 
-                         //necessary to display the entire text.
+    textSize = 50;
+    calculateTextArea(); //Automatically calculates the area
+    //necessary to display the entire text.
   }
   @Override
-  public void draw() {
+    public void draw() {
     super.draw();
-    if(displayText) {
-      fill(255);
-      rect(this.x + 30, this.y - 30, textWidth + 30, textHeight, 8);
-      fill(0);
-      text(text, this.x + 45, this.y - 15, textWidth, textHeight); 
+    if (displayText) {
+      if (hasBackground) {
+        image(backgroundImage, width/3 - 50, height * 6/7 - 60, textWidth + 30, textHeight);
+        fill(0);
+        textSize(textSize);
+        text(text, width/3, height * 6/7);
+      } else {
+        fill(255);
+        rect(width/3 - 50, height * 6/7 - 60, textWidth + 30, textHeight, 8);
+        fill(0);
+        textSize(textSize);
+        text(text, width/3, height * 6/7);
+      }
     }
   }
   @Override
-  public void mouseClicked() {
+    public void mouseClicked() {
     displayText = false;
-    if(mouseIsHovering) { displayText = true; }
+    if (mouseIsHovering) {
+      displayText = true;
+    }
   }
-  
+
   public void calculateTextArea() {
-    textWidth = textWidth(text);
-    float remaining = textWidth - 300;
-    textWidth = (textWidth > 300) ? 300 : textWidth;
+    textWidth = textWidth(text) * (textSize / 10);
+    float remaining = textWidth - 100;
+    textWidth = (textWidth > 1000) ? 1000 : textWidth;
     textHeight = 50;
-    while(remaining > 300)
+    while (remaining > 300)
     {
       textHeight += 30;
       remaining -= 300;
