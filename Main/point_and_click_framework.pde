@@ -1,8 +1,8 @@
 import processing.sound.*;
 
-int wwidth = 1266;
-int wheight = 800;
-int inventoryWidth = 200;
+int wwidth = 1920;
+int wheight = 1080;
+int inventoryWidth = wwidth/7;
 
 final SceneManager sceneManager = new SceneManager();
 final InventoryManager inventoryManager = new InventoryManager();
@@ -41,26 +41,26 @@ void setup()
 
   Scene scene01 = new Scene("scene01", "scene01.jpg");
   Collectable stone = new Collectable("stone", "stone.png");
-  CollectableObject colStone = new CollectableObject("stone_scene01", 975, 380, 50, 50, stone);
-  MoveToSceneObject moveToScene02 = new MoveToSceneObject("goToScene02_scene01", 144, 350, 50, 50, "arrowUp.png", "scene02");
-  RequireObject lock = new RequireObject("requiresStone_scene01", 160, 330, 50, 50, "lock.png", "This lock seems brittle...", stone, moveToScene02);
+  CollectableObject colStone = new CollectableObject("stone_scene01", width - width/5 - 20, height/2 - 20, 50, 50, stone);
+  MoveToSceneObject moveToScene02 = new MoveToSceneObject("goToScene02_scene01", width/6 - 100, height * 3/6 - 100, 50, 50, "arrowUp.png", "scene02");
+  RequireObject lock = new RequireObject("requiresStone_scene01", width/6 - 100, height * 3/6 - 100, 50, 50, "lock.png", "This lock seems brittle....",stone, moveToScene02);
   scene01.addGameObject(colStone);
   scene01.addGameObject(lock);
 
   Scene scene02 = new Scene("scene02", "scene02.jpg");
-  MoveToSceneObject moveToScene03 = new MoveToSceneObject("goToScene03_scene02", width/2 - 90, 380, 50, 50, "arrowUp.png", "scene03");
-  MoveToSceneObject goBackScene01 = new MoveToSceneObject("goBack_scene01", width/2 - 100, 740, 50, 50, "arrowDown.png", true);
+  MoveToSceneObject moveToScene03 = new MoveToSceneObject("goToScene03_scene02", width/2 - 90, height/2 - 50, 50, 50, "arrowUp.png", "scene03");
+  MoveToSceneObject goBackScene01 = new MoveToSceneObject("goBack_scene01", width/2 - 100, height * 5/6, 50, 50, "arrowDown.png", true);
   scene02.addGameObject(moveToScene03);
   scene02.addGameObject(goBackScene01);
 
   Scene scene03 = new Scene("scene03", "scene03.png");
-  MoveToSceneObject goBackScene02 = new MoveToSceneObject("goBack_scene02", width/2 - 100, 740, 50, 50, "arrowDown.png", true);
-  RequireObject inspectDoor1 = new RequireObject("inspectDoor1", 120, 420, 50, 50, "", "This door is locked", null, null);
-  RequireObject inspectDoor2 = new RequireObject("inspectDoor2", 450, 350, 50, 50, "", "This door is locked", null, null);
-  MoveToSceneObject moveToScene04 = new MoveToSceneObject("goToScene04_scene03", 760, 450, 50, 50, "", "scene04");
-  CollectableObject tempStone = new CollectableObject("stone_scene03", 550, 250, 50, 50, stone);
+  MoveToSceneObject goBackScene02 = new MoveToSceneObject("goBack_scene02", width/2 - 100, height * 5/6, 50, 50, "arrowDown.png", true);
+  RequireObject inspectDoor1 = new RequireObject("inspectDoor1", 205, 590, 50, 50, "apple.png", "This door is locked", null, null);
+  RequireObject inspectDoor2 = new RequireObject("inspectDoor2", width/3 + 65, 490, 50, 50, "apple.png", "This door is locked", null, null);
+  MoveToSceneObject moveToScene04 = new MoveToSceneObject("goToScene04_scene03", width * 4/6 - 90, 625, 50, 50, "apple.png", "scene04");
+  CollectableObject tempStone = new CollectableObject("stone_scene03", 795, 325, 50, 50, stone);
   MosaicPuzzle mosaic = new MosaicPuzzle("mosaic", 300, 200, 400, 400, "mozaic.png");
-  CloseUpObject mosaicObject = new CloseUpObject("testMinigameObject", 550, 250, 50, 50, "mozaic.png", mosaic, tempStone);
+  CloseUpObject mosaicObject = new CloseUpObject("testMinigameObject", 795, 325, 100, 100, "mozaic.png", mosaic, tempStone);
   scene03.addGameObject(goBackScene02);
   scene03.addGameObject(inspectDoor1);
   scene03.addGameObject(inspectDoor2);
@@ -68,13 +68,13 @@ void setup()
   scene03.addGameObject(mosaicObject);
 
   Scene scene04 = new Scene("scene04", "scene04.jpg");
-  MoveToSceneObject goBackScene03 = new MoveToSceneObject("goBack_scene03", width/2 - 100, 740, 50, 50, "arrowDown.png", true);
-  MoveToSceneObject moveToScene05 = new MoveToSceneObject("goToScene05_scene04", width/2 - 100, 270, 50, 50, "arrowUp.png", "scene05");
+  MoveToSceneObject goBackScene03 = new MoveToSceneObject("goBack_scene03", width/2 - 100, height * 5/6, 50, 50, "arrowDown.png", true);
+  MoveToSceneObject moveToScene05 = new MoveToSceneObject("goToScene05_scene04", width/2 - 100, 350, 50, 50, "arrowUp.png", "scene05");
   scene04.addGameObject(goBackScene03);
   scene04.addGameObject(moveToScene05);
 
   Scene scene05 = new Scene("scene05", "");
-  MoveToSceneObject goBackScene04 = new MoveToSceneObject("goBack_scene04", width/2 - 100, 740, 50, 50, "arrowDown.png", true);
+  MoveToSceneObject goBackScene04 = new MoveToSceneObject("goBack_scene04", width/2 - 100, height * 5/6, 50, 50, "arrowDown.png", true);
   scene05.addGameObject(goBackScene04);
 
   sceneManager.addScene(startMenu);

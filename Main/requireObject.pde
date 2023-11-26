@@ -4,6 +4,15 @@ class RequireObject extends TextObject {
   private boolean requiredCollectableOnTop;
 
   public RequireObject(String identifier, int x, int y, int owidth, int oheight,
+    String gameObjectImageFile, String text, String backgroundImageFile,
+    Collectable collectable, GameObject replaceWith) {
+    super(identifier, x, y, owidth, oheight, gameObjectImageFile, text, backgroundImageFile);
+    this.collectable = collectable;
+    this.replaceWith = replaceWith;
+    requiredCollectableOnTop = false;
+  }
+
+  public RequireObject(String identifier, int x, int y, int owidth, int oheight,
     String gameObjectImageFile, String text,
     Collectable collectable, GameObject replaceWith) {
     super(identifier, x, y, owidth, oheight, gameObjectImageFile, text);
