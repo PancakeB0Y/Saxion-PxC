@@ -28,7 +28,7 @@ class TextObject extends GameObject {
   @Override
     public void draw() {
     super.draw();
-    if (displayText) {
+    if (displayText && text != "") {
       if (hasBackground) {
         image(backgroundImage, width/3 - 50, height * 6/7 - 60, textWidth + 30, textHeight);
         fill(0);
