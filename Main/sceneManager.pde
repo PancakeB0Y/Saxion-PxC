@@ -28,6 +28,16 @@ class SceneManager {
     }
   }
   
+  public Scene getScene(String sceneName) throws Exception {
+    if(scenes.containsKey(sceneName)) {
+      return scenes.get(sceneName);
+    }
+    else {
+      throw new Exception("Scene not found with name: "+ sceneName + "." + 
+                           "Make sure it was added to the sceneManager.");
+    }
+  }
+  
   public void goToPreviousScene() {
     scenesStack.pop();
   }
