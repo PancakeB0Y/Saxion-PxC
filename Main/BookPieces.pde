@@ -19,17 +19,17 @@ class BookPiece {
   }
 
   void display() {
-    image(pieceImage, X, Y);
+    image(pieceImage, x, Y);
     if(Select) 
     {
       fill(50, 0, 0, 50);
-      rect(X, Y, gridSize , pieceImage.height);
+      rect(x, Y, gridSize , pieceImage.height);
     }
   }
 
   boolean contains(float mx, float my) {
     mx = constrain(mx, parent.x, parent.x + parent.mWidth);
     my = constrain(my, parent.y, parent.y + parent.mHeight);
-    return mx > X && mx < X + gridSize && my > Y && my < Y + parent.mHeight;
+    return mx > x && mx < x + gridSize && my > Y && my < Y + parent.mHeight;
   }
 }
