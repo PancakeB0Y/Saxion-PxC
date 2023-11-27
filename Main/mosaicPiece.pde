@@ -32,8 +32,8 @@ class MosaicPiece {
   }
 
   void stopDragging() {
-    int col = constrain(floor(mouseX / gridSize) - (parent.x / gridSize), 0, parent.cols - 1);
-    int row = constrain(floor(mouseY / gridSize) - (parent.y / gridSize), 0, parent.rows - 1);
+    int col = constrain(floor((mouseX / (float)gridSize) - (parent.x / (float)gridSize)), 0, parent.cols - 1);
+    int row = constrain(floor((mouseY / (float)gridSize) - (parent.y / (float)gridSize)), 0, parent.rows - 1);
     x = col * gridSize + parent.x;
     y = row * gridSize + parent.y;
     parent.grid[col][row] = id;
