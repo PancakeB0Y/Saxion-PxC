@@ -14,6 +14,7 @@ SoundFile whooshSound;
 SoundFile beatenPuzzleSound;
 
 MosaicPuzzle mosaic;
+BookPuzzle bookPuzzle;
 RequireObject inspectDoor2;
 
 void settings()
@@ -43,12 +44,15 @@ void setup()
   startMenu.addGameObject(quitButton);
 
   Scene scene01 = new Scene("scene01", "scene01.jpg");
+  bookPuzzle = new BookPuzzle("mosaic", 400, 200, 600, 600, "mosaic_white.png");
+  CloseUpObject bookPuzzleObject = new CloseUpObject("testMinigameObject", 795, 325, 100, 100, "mosaic_white.png", bookPuzzle);
   Collectable stone = new Collectable("stone", "stone.png");
   CollectableObject colStone = new CollectableObject("stone_scene01", width - width/5 - 20, height/2 - 20, 50, 50, stone);
   MoveToSceneObject moveToScene02 = new MoveToSceneObject("goToScene02_scene01", width/6 - 100, height * 3/6 - 100, 50, 50, "arrowUp.png", "scene02");
   RequireObject lock = new RequireObject("requiresStone_scene01", width/6 - 100, height * 3/6 - 100, 50, 50, "lock.png", "This lock seems brittle....", stone, moveToScene02);
   scene01.addGameObject(colStone);
   scene01.addGameObject(lock);
+  scene01.addGameObject(bookPuzzleObject);
 
   Scene scene02 = new Scene("scene02", "scene02.jpg");
   MoveToSceneObject moveToScene03 = new MoveToSceneObject("goToScene03_scene02", width/2 - 90, height/2 - 50, 50, 50, "arrowUp.png", "scene03");
