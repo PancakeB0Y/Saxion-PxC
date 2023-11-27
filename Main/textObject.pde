@@ -1,9 +1,8 @@
 class TextObject extends GameObject {
   private String text;
-  private String backgroundImageFile;
   private PImage backgroundImage;
   private boolean hasBackground;
-  private boolean displayText;
+  protected boolean displayText;
   private float textWidth;
   private float textHeight;
   private float textSize;

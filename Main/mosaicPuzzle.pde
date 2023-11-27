@@ -1,14 +1,13 @@
 class MosaicPuzzle extends CloseUp {
-  int gridSize;
-  int cols;
-  int rows;
-  int[][] grid;
-  PImage image;
-  ArrayList<PImage> pieceImages = new ArrayList<PImage>();
-  ArrayList<MosaicPiece> pieces = new ArrayList<MosaicPiece>();
+  private int gridSize;
+  private int cols;
+  private int rows;
+  private int[][] grid;
+  private ArrayList<PImage> pieceImages = new ArrayList<PImage>();
+  private ArrayList<MosaicPiece> pieces = new ArrayList<MosaicPiece>();
 
-  float tempX = 0;
-  float tempY = 0;
+  private float tempX = 0;
+  private float tempY = 0;
 
   MosaicPuzzle(String name, int x, int y, int mWidth, int mHeight, String minigameImageFile) {
     super( name, x, y, mWidth, mHeight, minigameImageFile);
@@ -35,21 +34,30 @@ class MosaicPuzzle extends CloseUp {
       }
     }
 
+    arrangePieces();
+  }
+
+  //randomly arranges the pieces
+  void arrangePieces() {
     for (int r = 0; r < rows; r++) {
       for (int c = 0; c < cols; c++) {
-        int i = checkPuzzlePiece(r, c);
+        int i = checkPuzzlePiece();
         grid[c][r] = i;
 
-        pieces.add(new MosaicPiece(i, c, r, pieceImages.get(i), this));
+        //if (pieces.size() <16) {
+          pieces.add(new MosaicPiece(i, c, r, pieceImages.get(i), this));
+        //} else {
+        //  pieces.set(r + c, new MosaicPiece(i, c, r, pieceImages.get(i), this));
+        //}
       }
     }
   }
 
-  int checkPuzzlePiece(int r, int c) {
+  int checkPuzzlePiece() {
     int i = (int)random(0, pieceImages.size());
     for (MosaicPiece piece : pieces) {
       if (i == piece.id) {
-        i = checkPuzzlePiece(r, c);
+        i = checkPuzzlePiece();
       }
     }
     return  i;
@@ -75,7 +83,7 @@ class MosaicPuzzle extends CloseUp {
   void drawGrid() {
     for (int i = 0; i < cols; i++) {
       for (int j = 0; j < rows; j++) {
-        fill(200);
+        fill(0);
         rect(i * gridSize + x, j * gridSize + y, gridSize, gridSize);
       }
     }
@@ -142,6 +150,21 @@ class MosaicPuzzle extends CloseUp {
     // Drag the squares that are currently being dragged
     for (MosaicPiece piece : pieces) {
       piece.update();
+    }
+  }
+
+  void mouseClicked() {
+    if (!isOpen) {
+      return;
+    }
+
+    if (mouseX < x || mouseX > x + mWidth || mouseY < y || mouseY > y + mHeight) {
+      isOpen = false;
+      if (!isWon) {
+        //Resets the puzzle if is exited before completion
+        pieces = new ArrayList<MosaicPiece>();
+        arrangePieces();
+      }
     }
   }
 }

@@ -13,6 +13,9 @@ SoundFile breakSound;
 SoundFile whooshSound;
 SoundFile beatenPuzzleSound;
 
+MosaicPuzzle mosaic;
+RequireObject inspectDoor2;
+
 void settings()
 {
   size(wwidth, wheight);
@@ -43,7 +46,7 @@ void setup()
   Collectable stone = new Collectable("stone", "stone.png");
   CollectableObject colStone = new CollectableObject("stone_scene01", width - width/5 - 20, height/2 - 20, 50, 50, stone);
   MoveToSceneObject moveToScene02 = new MoveToSceneObject("goToScene02_scene01", width/6 - 100, height * 3/6 - 100, 50, 50, "arrowUp.png", "scene02");
-  RequireObject lock = new RequireObject("requiresStone_scene01", width/6 - 100, height * 3/6 - 100, 50, 50, "lock.png", "This lock seems brittle....",stone, moveToScene02);
+  RequireObject lock = new RequireObject("requiresStone_scene01", width/6 - 100, height * 3/6 - 100, 50, 50, "lock.png", "This lock seems brittle....", stone, moveToScene02);
   scene01.addGameObject(colStone);
   scene01.addGameObject(lock);
 
@@ -53,29 +56,37 @@ void setup()
   scene02.addGameObject(moveToScene03);
   scene02.addGameObject(goBackScene01);
 
-  Scene scene03 = new Scene("scene03", "scene03.png");
+  Scene scene03 = new Scene("scene03", "scene03.jpg");
   MoveToSceneObject goBackScene02 = new MoveToSceneObject("goBack_scene02", width/2 - 100, height * 5/6, 50, 50, "arrowDown.png", true);
   RequireObject inspectDoor1 = new RequireObject("inspectDoor1", 205, 590, 50, 50, "apple.png", "This door is locked", null, null);
-  RequireObject inspectDoor2 = new RequireObject("inspectDoor2", width/3 + 65, 490, 50, 50, "apple.png", "This door is locked", null, null);
-  MoveToSceneObject moveToScene04 = new MoveToSceneObject("goToScene04_scene03", width * 4/6 - 90, 625, 50, 50, "apple.png", "scene04");
-  CollectableObject tempStone = new CollectableObject("stone_scene03", 795, 325, 50, 50, stone);
-  MosaicPuzzle mosaic = new MosaicPuzzle("mosaic", 300, 200, 400, 400, "mozaic.png");
-  CloseUpObject mosaicObject = new CloseUpObject("testMinigameObject", 795, 325, 100, 100, "mozaic.png", mosaic, tempStone);
+  inspectDoor2 = new RequireObject("inspectDoor2", width/3 + 65, 490, 50, 50, "apple.png", "This door is locked", null, null);
+  MoveToSceneObject moveToScene04 = new MoveToSceneObject("goToScene04_scene03", width/3 + 65, 490, 50, 50, "apple.png", "scene04");
+  mosaic = new MosaicPuzzle("mosaic", 600, 200, 600, 600, "mosaic_white.png");
+  CloseUpObject mosaicObject = new CloseUpObject("testMinigameObject", 795, 325, 100, 100, "mosaic_white.png", mosaic, moveToScene04);
+  Collectable crystal = new Collectable("crystal", "crystal.png");
+  MoveToSceneObject moveToScene05 = new MoveToSceneObject("goToScene05_scene03", width * 4/6 - 90, 625, 50, 50, "apple.png", "scene05");
+  RequireObject inspectDoor3 = new RequireObject("inspectDoor3", width * 4/6 - 90, 625, 50, 50, "apple.png", "This door is locked", crystal, moveToScene05);
   scene03.addGameObject(goBackScene02);
   scene03.addGameObject(inspectDoor1);
   scene03.addGameObject(inspectDoor2);
-  scene03.addGameObject(moveToScene04);
   scene03.addGameObject(mosaicObject);
+  scene03.addGameObject(inspectDoor3);
 
   Scene scene04 = new Scene("scene04", "scene04.jpg");
+  CollectableObject colCrystal = new CollectableObject("crystal_scene04", 600, 400 - 20, 50, 80, crystal);
   MoveToSceneObject goBackScene03 = new MoveToSceneObject("goBack_scene03", width/2 - 100, height * 5/6, 50, 50, "arrowDown.png", true);
-  MoveToSceneObject moveToScene05 = new MoveToSceneObject("goToScene05_scene04", width/2 - 100, 350, 50, 50, "arrowUp.png", "scene05");
+  scene04.addGameObject(colCrystal);
   scene04.addGameObject(goBackScene03);
-  scene04.addGameObject(moveToScene05);
 
-  Scene scene05 = new Scene("scene05", "");
-  MoveToSceneObject goBackScene04 = new MoveToSceneObject("goBack_scene04", width/2 - 100, height * 5/6, 50, 50, "arrowDown.png", true);
-  scene05.addGameObject(goBackScene04);
+  Scene scene05 = new Scene("scene05", "scene05.jpg");
+  MoveToSceneObject goBackScene03_scene05 = new MoveToSceneObject("goBack_scene03_scene05", width/2 - 100, height * 5/6, 50, 50, "arrowDown.png", true);
+  MoveToSceneObject moveToScene06 = new MoveToSceneObject("goToScene06_scene05", width/2 - 100, 350, 50, 50, "arrowUp.png", "scene06");
+  scene05.addGameObject(goBackScene03_scene05);
+  scene05.addGameObject(moveToScene06);
+
+  Scene scene06 = new Scene("scene06", "scene06.jpg");
+  MoveToSceneObject goBackScene05 = new MoveToSceneObject("goBack_scene05", width/2 - 100, height * 5/6, 50, 50, "arrowDown.png", true);
+  scene06.addGameObject(goBackScene05);
 
   sceneManager.addScene(startMenu);
   sceneManager.addScene(scene01);
@@ -83,6 +94,7 @@ void setup()
   sceneManager.addScene(scene03);
   sceneManager.addScene(scene04);
   sceneManager.addScene(scene05);
+  sceneManager.addScene(scene06);
 
   //Collectable apple = new Collectable("apple", "back04_apple.png");
   //MoveToSceneObject object7 = new MoveToSceneObject("goToScene04_scene01", 206, 461, 50, 50, "arrowUp.png", "scene04");
@@ -145,6 +157,9 @@ void setup()
 
 void draw()
 {
+  if (mosaic.isWon) {
+    inspectDoor2.displayText = false;
+  }
   sceneManager.getCurrentScene().draw();
   sceneManager.getCurrentScene().updateScene();
   inventoryManager.clearMarkedForDeathCollectables();
