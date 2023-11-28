@@ -44,7 +44,7 @@ void setup()
   startMenu.addGameObject(quitButton);
 
   Scene scene01 = new Scene("scene01", "scene01.jpg");
-  bookPuzzle = new BookPuzzle("mosaic", 400, 200, 600, 600, "mosaic_white.png");
+  bookPuzzle = new BookPuzzle("mosaic", 600, 0, 600, 600, "mosaic_white.png");
   CloseUpObject bookPuzzleObject = new CloseUpObject("testMinigameObject", 795, 325, 100, 100, "mosaic_white.png", bookPuzzle);
   Collectable stone = new Collectable("stone", "stone.png");
   CollectableObject colStone = new CollectableObject("stone_scene01", width - width/5 - 20, height/2 - 20, 50, 50, stone);

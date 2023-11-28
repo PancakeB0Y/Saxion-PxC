@@ -8,7 +8,7 @@ class BookPuzzle extends CloseUp {
 
   float tempX = 0;
   float tempY = 0;
-  
+
   BookPuzzle(String name, int x, int y, int bWidth, int bHeight, String minigameImageFile) {
     super( name, x, y, bWidth, bHeight, minigameImageFile);
 
@@ -17,21 +17,21 @@ class BookPuzzle extends CloseUp {
     pieceImages.add(loadImage("Book2.png"));
     pieceImages.add(loadImage("Book3.png"));
     pieceImages.add(loadImage("Book4.png"));
-    
-    
-    
+
+
+
     gridSize = bWidth/5;
 
     cols = pieceImages.size();
 
     grid = new int[cols];
-    
+
     mWidth = cols * gridSize;
-    
+
     for (int c = 0; c < cols; c++) {
       int i = checkPuzzlePiece(c);
       grid[c] = i;
-      Books.add(new BookPiece(i, c, y, pieceImages.get(i), this));      
+      Books.add(new BookPiece(i, c, y, pieceImages.get(i), this));
     }
   }
 
@@ -46,7 +46,7 @@ class BookPuzzle extends CloseUp {
   }
 
   void draw() {
-    drawGrid();
+    //drawGrid();
 
     for (BookPiece Book : Books) {
       Book.display();
@@ -55,34 +55,34 @@ class BookPuzzle extends CloseUp {
 
   void drawGrid() {
     for (int i = 0; i < cols; i++) {
-        fill(200);
-        rect(i * gridSize + x, y, gridSize , mHeight);      
+      rect(i * gridSize + x, y, gridSize, mHeight);
     }
   }
-int tempcol;
+
   void mousePressed() {
-    // Check whether the mouse click is within one of the squares
-    for (BookPiece Book : Books) {
-      if (Book.contains(mouseX, mouseY)) {        
-        if (Select) {
-          for (BookPiece Book1e : Books) {
-            if (Book1e.Select) {
-              Book1e.x = Book.x;
-              grid[tempcol] = Book.id;
-              Book1e.Select = false;              
-              grid[floor((Book.x - x) / gridSize)] = Book1e.id;              
-              Book.x = tempX;
-              chechWin();              
-            }
-          }          
-        } else {
-          tempX = Book.x;
-          tempcol = floor((Book.x - x) / gridSize);
-          Book.Select = true;
+    //Check whether the mouse click is within one of the squares
+    for (BookPiece book : Books) {
+      book.mousePressed();
+    }
+
+    for (BookPiece bookOnMouse : Books) {
+      if (bookOnMouse.contains(mouseX, mouseY)) {
+        for (BookPiece bookToSwitch : Books) {
+          if (bookToSwitch != bookOnMouse && bookToSwitch.select) {
+            int colOnMouse = floor((bookOnMouse.x - x) / gridSize);
+            int colToSwitch = floor((bookToSwitch.x - x) / gridSize);
+            float tempX = bookOnMouse.x;
+            bookOnMouse.x = bookToSwitch.x;
+            bookToSwitch.x = tempX;
+            grid[colOnMouse] = bookToSwitch.id;
+            grid[colToSwitch] = bookOnMouse.id;
+            bookOnMouse.select = false;
+            bookToSwitch.select = false;
+            chechWin();
+          }
         }
-        Select = !Select;        
       }
-    } 
+    }
   }
 
   void chechWin() {
@@ -92,7 +92,7 @@ int tempcol;
       if (winConditionCheck++ != grid[c])
       {
         hasWon = false;
-      }      
+      }
     }
 
     if (hasWon) {
