@@ -9,9 +9,21 @@ InventoryManager inventoryManager = new InventoryManager();
 InventoryDisplay inventoryDisplay;
 
 SoundFile interactSound;
-SoundFile breakSound;
 SoundFile whooshSound;
 SoundFile beatenPuzzleSound;
+SoundFile lockBreakSound;
+SoundFile monsterStartSound;
+SoundFile deadSound;
+SoundFile backgroundSound;
+SoundFile monsterApproachingSound;
+
+float footstepsVolume = 0.0001;
+float volumeIncrease = 0;
+float footstepsRate = 1.5;
+float footstepsRateIncrease = 0;
+
+boolean chaseStarted = false;
+boolean isGameOver = false;
 
 void settings()
 {
@@ -21,18 +33,34 @@ void settings()
 void setup()
 {
   interactSound = new SoundFile(this, "interact.wav");
-  interactSound.amp(0.5);
-  breakSound = new SoundFile(this, "whoosh.wav");
-  breakSound.amp(0.5);
+  interactSound.amp(0.1);
   whooshSound = new SoundFile(this, "whooshBig.wav");
-  whooshSound.amp(0.1);
+  whooshSound.amp(0.005);
   beatenPuzzleSound = new SoundFile(this, "sparkling.wav");
-  beatenPuzzleSound.amp(0.1);
+  beatenPuzzleSound.amp(0.05);
+  lockBreakSound = new SoundFile(this, "lock_break.wav");
+  lockBreakSound.amp(0.01);
+  monsterStartSound = new SoundFile(this, "monsterStart.wav");
+  monsterStartSound.amp(0.1);
+  deadSound = new SoundFile(this, "dead.wav");
+  deadSound.amp(0.7);
+  backgroundSound = new SoundFile(this, "background.wav");
+  backgroundSound.amp(0.07);
+  monsterApproachingSound = new SoundFile(this, "footsteps.wav");
+  monsterApproachingSound.amp(footstepsVolume);
+  monsterApproachingSound.rate(footstepsRate);
 
   loadScenes();
 }
 
 void loadScenes() {
+  backgroundSound.stop();
+  monsterApproachingSound.stop();
+  monsterApproachingSound.loop();
+  footstepsVolume = 0.001;
+  footstepsRate = 1.5;
+  footstepsRateIncrease = 0;
+
   inventoryDisplay = new InventoryDisplay("inventory.png");
 
   Scene startMenu = new Scene("scene01", "", false);
@@ -43,26 +71,26 @@ void loadScenes() {
   startMenu.addGameObject(optionsButton);
   startMenu.addGameObject(quitButton);
 
-  Scene scene01 = new Scene("scene01", "scene01.jpg");
+  Scene scene01 = new Scene("scene01", "scene01.jpg", backgroundSound);
   Collectable stone = new Collectable("stone", "stone.png");
   CollectableObject colStone = new CollectableObject("stone_scene01", width - width/5 - 80, height/2 - 20, 50, 50, stone);
   MoveToSceneObject moveToScene02 = new MoveToSceneObject("goToScene02_scene01", width/6 - 100, height * 3/6 - 100, 50, 50, "arrowUp.png", "scene02", whooshSound);
-  RequireObject lock = new RequireObject("requiresStone_scene01", width/6 - 100, height * 3/6 - 100, 50, 50, "lock.png", "This lock seems brittle....", stone, moveToScene02, false);
+  RequireObject lock = new RequireObject("requiresStone_scene01", width/6 - 100, height * 3/6 - 100, 50, 50, "lock.png", "This lock seems brittle....", stone, moveToScene02, false, lockBreakSound);
   scene01.addGameObject(colStone);
   scene01.addGameObject(lock);
 
-  Scene scene02 = new Scene("scene02", "scene02.jpg");
-  MoveToSceneObject moveToScene03 = new MoveToSceneObject("goToScene03_scene02", width/2 - 90, height/2 - 50, 50, 50, "arrowUp.png", "scene03", whooshSound);
-  MoveToSceneObject goBackScene01 = new MoveToSceneObject("goBack_scene01", width/2 - 100, height * 5/6, 50, 50, "arrowDown.png", true);
+  Scene scene02 = new Scene("scene02", "scene02.jpg", monsterStartSound);
+  MoveToSceneObject moveToScene03 = new MoveToSceneObject("goToScene03_scene02", width/2 - inventoryWidth/2 - 20, height/2 - 50, 50, 50, "arrowUp.png", "scene03", whooshSound);
+  MoveToSceneObject goBackScene01 = new MoveToSceneObject("goBack_scene01", width/2 - inventoryWidth/2 - 20, height * 5/6, 50, 50, "arrowDown.png", true);
   scene02.addGameObject(moveToScene03);
   scene02.addGameObject(goBackScene01);
 
   Scene scene03 = new Scene("scene03", "scene03.jpg");
   MoveToSceneObject goBackScene02_scene03 = new MoveToSceneObject("goBack_scene02_scene03", width/2 - 100, height * 5/6, 50, 50, "arrowDown.png", true);
   MoveToSceneObject moveToHideScene = new MoveToSceneObject("goToHideScene_scene04", 200, 450, 50, 50, "arrowDown.png", "hideScene");
-  MoveToSceneObject moveToHideScene2 = new MoveToSceneObject("goToGameOverScene1_scene03", 1100, 450, 50, 50, "arrowDown.png", "gameOverScene");
-  MoveToSceneObject moveToHideScene3 = new MoveToSceneObject("goToGameOverScene2_scene03", 1300, 450, 50, 50, "arrowDown.png", "gameOverScene");
-  MoveToSceneObject moveToGameOverScene = new MoveToSceneObject("goToGameOverScene3_scene03", width/2 - 100, height * 2/6, 50, 50, "arrowUp.png", "gameOverScene");
+  MoveToSceneObject moveToHideScene2 = new MoveToSceneObject("goToGameOverScene1_scene03", 1100, 450, 50, 50, "arrowDown.png", "gameOverScene", deadSound);
+  MoveToSceneObject moveToHideScene3 = new MoveToSceneObject("goToGameOverScene2_scene03", 1300, 450, 50, 50, "arrowDown.png", "gameOverScene", deadSound);
+  MoveToSceneObject moveToGameOverScene = new MoveToSceneObject("goToGameOverScene3_scene03", width/2 - 100, height * 2/6, 50, 50, "arrowUp.png", "gameOverScene", deadSound);
   scene03.addGameObject(goBackScene02_scene03);
   scene03.addGameObject(moveToHideScene);
   scene03.addGameObject(moveToHideScene2);
@@ -89,7 +117,7 @@ void loadScenes() {
   RequireObject inspectDoor1 = new RequireObject("inspectDoor1", 620, 590, 50, 50, "apple.png", "This door is locked", (Collectable)null, null);
   MoveToSceneObject moveToScene06 = new MoveToSceneObject("goToScene06_scene05", width/3 + 285, 605, 50, 50, "apple.png", "scene06", whooshSound);
   MosaicPuzzle mosaic = new MosaicPuzzle("mosaic", 600, 200, 600, 600, "mosaic_white.png");
-  RequireObject inspectDoor2 = new RequireObject("inspectDoor2", width/3 + 285, 605, 50, 50, "apple.png", "This door is locked", mosaic, moveToScene06);
+  RequireObject inspectDoor2 = new RequireObject("inspectDoor2", width/3 + 285, 605, 50, 50, "apple.png", "This door is locked", mosaic, moveToScene06, null);
   CloseUpObject mosaicObject = new CloseUpObject("mosaicObject", 835, 410, 100, 100, "mosaic_white.png", mosaic);
   Collectable crystal = new Collectable("crystal", "crystal.png");
   MoveToSceneObject moveToScene07 = new MoveToSceneObject("goToScene07_scene05", width * 4/6 + 55, 630, 50, 50, "apple.png", "scene07", whooshSound);
@@ -120,15 +148,17 @@ void loadScenes() {
   Scene scene08 = new Scene("scene08", "scene08.jpg");
   MoveToSceneObject moveToVictoryScene = new MoveToSceneObject("goToVictoryScene_scene08", 500, 400, 50, 50, "arrowUp.png", "victoryScene", whooshSound);
   MoveToSceneObject goBackScene07 = new MoveToSceneObject("goBack_scene07", width/2 - 100, height * 5/6, 50, 50, "arrowDown.png", true);
-  RequireObject inspectPortal = new RequireObject("inspectPortal", width/2 - 300, 200, 300, 400, "apple.png", "This portal isn't working", (Collectable)null, moveToVictoryScene);
+  RequireObject inspectPortal = new RequireObject("inspectPortal", width/2 - 300, 200, 300, 400, "apple.png", "The portal isn't working", (Collectable)null, moveToVictoryScene);
   scene08.addGameObject(goBackScene07);
   scene08.addGameObject(inspectPortal);
 
   Scene victoryScene = new Scene("victoryScene", "scene08.jpg");
+  RestartObject restartButton1 = new RestartObject("restartButton", width/2 - (505/2), 100, 505, 147, "restartButton.png");
+  victoryScene.addGameObject(restartButton1);
 
   Scene gameOverScene = new Scene("gameOverScene", "jumpscare.png", false);
-  RestartObject restartButton = new RestartObject("restartButton", width/2 - (505/2), 100, 505, 147, "restartButton.png");
-  gameOverScene.addGameObject(restartButton);
+  RestartObject restartButton2 = new RestartObject("restartButton", width/2 - (505/2), 100, 505, 147, "restartButton.png");
+  gameOverScene.addGameObject(restartButton2);
 
   sceneManager.addScene(startMenu);
   sceneManager.addScene(scene01);
@@ -141,8 +171,8 @@ void loadScenes() {
   sceneManager.addScene(scene06);
   sceneManager.addScene(scene07);
   sceneManager.addScene(scene08);
-  sceneManager.addScene(gameOverScene);
   sceneManager.addScene(victoryScene);
+  sceneManager.addScene(gameOverScene);
 }
 
 void restart() {
@@ -153,9 +183,42 @@ void restart() {
 
 void draw()
 {
+  println(footstepsVolume);
   sceneManager.getCurrentScene().draw();
   sceneManager.getCurrentScene().updateScene();
   inventoryManager.clearMarkedForDeathCollectables();
+
+  monsterApproachingSound.amp(footstepsVolume);
+  monsterApproachingSound.rate(footstepsRate);
+
+  footstepsVolume+=volumeIncrease;
+  footstepsRate+=footstepsRateIncrease;
+  
+  if (sceneManager.getCurrentScene().sceneName == "scene02") {
+    chaseStarted = true;
+  }
+  
+  if (chaseStarted) {
+    volumeIncrease = 0.002;
+    footstepsRateIncrease = 0.01;
+  }
+  
+  if (footstepsVolume >= 0.15) {
+    try {
+      if (!isGameOver) {
+        sceneManager.goToScene("gameOverScene");
+        deadSound.play();
+        footstepsVolume = 0;
+        volumeIncrease = 0;
+        footstepsRate = 1.5;
+        isGameOver = true;
+        chaseStarted = false;
+      }
+    }
+    catch(Exception e) {
+      println(e);
+    }
+  }
 }
 
 void mouseMoved() {

@@ -2,6 +2,7 @@ class RequireObject extends TextObject {
   private Collectable collectable;
   private CloseUp minigame;
   private GameObject replaceWith;
+  private SoundFile sound;
   private boolean requiredCollectableOnTop;
   private boolean removeOnDrop;
   private boolean hasMinigame;
@@ -10,58 +11,62 @@ class RequireObject extends TextObject {
 
   public RequireObject(String identifier, int x, int y, int owidth, int oheight,
     String gameObjectImageFile, String text,
-    CloseUp minigame, GameObject replaceWith) {
+    CloseUp minigame, GameObject replaceWith, SoundFile sound) {
     super(identifier, x, y, owidth, oheight, gameObjectImageFile, text);
     this.minigame = minigame;
     this.replaceWith = replaceWith;
     requiredCollectableOnTop = false;
     this.removeOnDrop = false;
     hasMinigame = true;
+    this.sound = sound;
   }
 
   public RequireObject(String identifier, int x, int y, int owidth, int oheight,
     String gameObjectImageFile, String text, String backgroundImageFile,
-    CloseUp minigame, GameObject replaceWith) {
+    CloseUp minigame, GameObject replaceWith, SoundFile sound) {
     super(identifier, x, y, owidth, oheight, gameObjectImageFile, text, backgroundImageFile);
     this.minigame = minigame;
     this.replaceWith = replaceWith;
     requiredCollectableOnTop = false;
     this.removeOnDrop = false;
     hasMinigame = true;
+    this.sound = sound;
   }
 
   public RequireObject(String identifier, int x, int y, int owidth, int oheight,
     String gameObjectImageFile, String text, String backgroundImageFile,
     Collectable collectable, GameObject replaceWith) {
-    this(identifier, x, y, owidth, oheight, gameObjectImageFile, text, backgroundImageFile, collectable, replaceWith, true);
+    this(identifier, x, y, owidth, oheight, gameObjectImageFile, text, backgroundImageFile, collectable, replaceWith, true, null);
   }
 
   public RequireObject(String identifier, int x, int y, int owidth, int oheight,
     String gameObjectImageFile, String text, String backgroundImageFile,
-    Collectable collectable, GameObject replaceWith, boolean removeOnDrop) {
+    Collectable collectable, GameObject replaceWith, boolean removeOnDrop, SoundFile sound) {
     super(identifier, x, y, owidth, oheight, gameObjectImageFile, text, backgroundImageFile);
     this.collectable = collectable;
     this.replaceWith = replaceWith;
     requiredCollectableOnTop = false;
     this.removeOnDrop = removeOnDrop;
     hasMinigame = false;
+    this.sound = sound;
   }
 
   public RequireObject(String identifier, int x, int y, int owidth, int oheight,
     String gameObjectImageFile, String text,
     Collectable collectable, GameObject replaceWith) {
-    this(identifier, x, y, owidth, oheight, gameObjectImageFile, text, collectable, replaceWith, true);
+    this(identifier, x, y, owidth, oheight, gameObjectImageFile, text, collectable, replaceWith, true, null);
   }
 
   public RequireObject(String identifier, int x, int y, int owidth, int oheight,
     String gameObjectImageFile, String text,
-    Collectable collectable, GameObject replaceWith, boolean removeOnDrop) {
+    Collectable collectable, GameObject replaceWith, boolean removeOnDrop, SoundFile sound) {
     super(identifier, x, y, owidth, oheight, gameObjectImageFile, text);
     this.collectable = collectable;
     this.replaceWith = replaceWith;
     requiredCollectableOnTop = false;
     this.removeOnDrop = removeOnDrop;
     hasMinigame = false;
+    this.sound = sound;
   }
 
   public void mouseDragged() {
@@ -81,7 +86,9 @@ class RequireObject extends TextObject {
   public void mouseReleased() {
     if (!hasMinigame) {
       if (requiredCollectableOnTop) {
-        breakSound.play();
+        if(sound != null){
+          sound.play();
+        }
         if (removeOnDrop) {
           inventoryManager.removeCollectable(collectable);
         }

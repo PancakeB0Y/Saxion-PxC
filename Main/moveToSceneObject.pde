@@ -38,6 +38,9 @@ class MoveToSceneObject extends GameObject {
             sound.play();
           }
           sceneManager.goToScene(nextSceneIdentifier);
+          if(sceneManager.getScene(nextSceneIdentifier).sound != null){
+            sceneManager.getScene(nextSceneIdentifier).sound.play();
+          }
         }
         catch(Exception e) {
           println(e.getMessage());

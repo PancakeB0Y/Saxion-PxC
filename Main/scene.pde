@@ -5,20 +5,30 @@ class Scene {
 
   private ArrayList<GameObject> recentlyAddedGameObjects;
   private ArrayList<GameObject> markedForDeathGameObjects;
-
+  
+  private SoundFile sound;
   private boolean displayInventory;
 
-  public Scene(String sceneName, String backgroundImageFile) {
-    this(sceneName, backgroundImageFile, true);
+  public Scene(String sceneName, String backgroundImageFile, SoundFile sound) {
+    this(sceneName, backgroundImageFile, true, sound);
   }
 
+  public Scene(String sceneName, String backgroundImageFile) {
+    this(sceneName, backgroundImageFile, true, null);
+  }
+  
   public Scene(String sceneName, String backgroundImageFile, boolean displayInventory) {
+    this(sceneName, backgroundImageFile, displayInventory, null);
+  }
+
+  public Scene(String sceneName, String backgroundImageFile, boolean displayInventory, SoundFile sound) {
     this.sceneName = sceneName;
     this.backgroundImage = backgroundImageFile != "" ? loadImage(backgroundImageFile) : null;
     this.displayInventory = displayInventory;
     gameObjects = new ArrayList<GameObject>();
     markedForDeathGameObjects = new ArrayList<GameObject>();
     recentlyAddedGameObjects = new ArrayList<GameObject>();
+    this.sound = sound;
   }
 
   public void addGameObject(GameObject object) {
