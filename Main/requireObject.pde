@@ -1,8 +1,34 @@
 class RequireObject extends TextObject {
   private Collectable collectable;
+  private CloseUp minigame;
   private GameObject replaceWith;
   private boolean requiredCollectableOnTop;
   private boolean removeOnDrop;
+  private boolean hasMinigame;
+  
+  private boolean addedObjectOnce = false;
+
+  public RequireObject(String identifier, int x, int y, int owidth, int oheight,
+    String gameObjectImageFile, String text,
+    CloseUp minigame, GameObject replaceWith) {
+    super(identifier, x, y, owidth, oheight, gameObjectImageFile, text);
+    this.minigame = minigame;
+    this.replaceWith = replaceWith;
+    requiredCollectableOnTop = false;
+    this.removeOnDrop = false;
+    hasMinigame = true;
+  }
+
+  public RequireObject(String identifier, int x, int y, int owidth, int oheight,
+    String gameObjectImageFile, String text, String backgroundImageFile,
+    CloseUp minigame, GameObject replaceWith) {
+    super(identifier, x, y, owidth, oheight, gameObjectImageFile, text, backgroundImageFile);
+    this.minigame = minigame;
+    this.replaceWith = replaceWith;
+    requiredCollectableOnTop = false;
+    this.removeOnDrop = false;
+    hasMinigame = true;
+  }
 
   public RequireObject(String identifier, int x, int y, int owidth, int oheight,
     String gameObjectImageFile, String text, String backgroundImageFile,
@@ -18,6 +44,7 @@ class RequireObject extends TextObject {
     this.replaceWith = replaceWith;
     requiredCollectableOnTop = false;
     this.removeOnDrop = removeOnDrop;
+    hasMinigame = false;
   }
 
   public RequireObject(String identifier, int x, int y, int owidth, int oheight,
@@ -34,6 +61,7 @@ class RequireObject extends TextObject {
     this.replaceWith = replaceWith;
     requiredCollectableOnTop = false;
     this.removeOnDrop = removeOnDrop;
+    hasMinigame = false;
   }
 
   public void mouseDragged() {
@@ -51,13 +79,29 @@ class RequireObject extends TextObject {
   }
 
   public void mouseReleased() {
-    if (requiredCollectableOnTop) {
-      breakSound.play();
-      if (removeOnDrop) {
-        inventoryManager.removeCollectable(collectable);
+    if (!hasMinigame) {
+      if (requiredCollectableOnTop) {
+        breakSound.play();
+        if (removeOnDrop) {
+          inventoryManager.removeCollectable(collectable);
+        }
+        sceneManager.getCurrentScene().removeGameObject(this);
+        sceneManager.getCurrentScene().addGameObject(replaceWith);
       }
+    }
+  }
+
+  public void mouseMoved() {
+    mouseIsHovering = false;
+    if (mouseX >= x - 5 && mouseX <= x + 5 + owidth &&
+      mouseY >= y - 5 && mouseY <= y + 5 + oheight) {
+      mouseIsHovering = true;
+    }
+    
+    if (hasMinigame && minigame.isWon && !addedObjectOnce) {
       sceneManager.getCurrentScene().removeGameObject(this);
       sceneManager.getCurrentScene().addGameObject(replaceWith);
+      addedObjectOnce = true;
     }
   }
 }

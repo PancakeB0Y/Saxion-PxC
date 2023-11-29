@@ -44,11 +44,7 @@ class MosaicPuzzle extends CloseUp {
         int i = checkPuzzlePiece();
         grid[c][r] = i;
 
-        //if (pieces.size() <16) {
-          pieces.add(new MosaicPiece(i, c, r, pieceImages.get(i), this));
-        //} else {
-        //  pieces.set(r + c, new MosaicPiece(i, c, r, pieceImages.get(i), this));
-        //}
+        pieces.add(new MosaicPiece(i, c, r, pieceImages.get(i), this));
       }
     }
   }

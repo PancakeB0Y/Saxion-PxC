@@ -44,11 +44,13 @@ class CloseUpObject extends GameObject {
     } else {
       super.mouseReleased();
     }
-    
-    if (closeUp.isWon && replaceWith != null) {
+
+    if (closeUp.isWon) {
       closeUp.isOpen = false;
       sceneManager.getCurrentScene().removeGameObject(this);
-      sceneManager.getCurrentScene().addGameObject(replaceWith);
+      if (replaceWith != null) {
+        sceneManager.getCurrentScene().addGameObject(replaceWith);
+      }
     }
   }
 
