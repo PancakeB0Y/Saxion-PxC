@@ -5,7 +5,7 @@ class CloseUp {
   protected int mWidth;
   protected int mHeight;
   protected PImage closeUpImage;
-  private boolean hasImage;
+  protected boolean hasImage;
   protected boolean isWon;
   protected boolean isOpen;
 

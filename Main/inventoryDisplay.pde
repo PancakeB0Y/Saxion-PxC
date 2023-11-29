@@ -11,14 +11,14 @@ class InventoryDisplay {
   InventoryDisplay(String inventoryImageFile) {
     this.inventoryImage = loadImage(inventoryImageFile);
     beingDragged = null;
-    startX = wwidth - (inventoryWidth/1.25);
+    startX = wwidth - (inventoryWidth/1.25) - 25;
     startY = 50;
-    rowSpacing = wwidth/18.0;
+    rowSpacing = wwidth/18.0 + 25;
     colSpacing = wheight/12.0;
   }
 
   public void draw() {
-    image(inventoryImage, wwidth - inventoryWidth, 0, inventoryWidth, wheight);
+    image(inventoryImage, wwidth - inventoryWidth - 110, 0, inventoryWidth + 110, wheight);
     for (int i = 0; i < inventoryManager.collectables.size(); i++) {
       Collectable curCollectable = inventoryManager.collectables.get(i);
       image(curCollectable.gameObjectImage, startX + (rowSpacing * (i%2)), startY + (colSpacing * ceil(i/2)), 60, 60);

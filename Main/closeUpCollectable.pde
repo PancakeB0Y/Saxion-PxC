@@ -10,7 +10,7 @@ class CloseUpCollectable extends Collectable {
     closeUpImage = loadImage(closeUpImageFile);
     isOpen = false;
 
-    closeUpWidth = 800;
+    closeUpWidth = 950;
     closeUphHeight = 800;
     closeUpX = width/2 - closeUpWidth/2 - inventoryWidth/2;
     closeUpY = height/2 - closeUphHeight/2;
