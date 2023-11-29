@@ -1,6 +1,7 @@
 class MoveToSceneObject extends GameObject {
   private String nextSceneIdentifier;
   private boolean moveBack;
+  private SoundFile sound;
 
   public MoveToSceneObject(String identifier, int x, int y, int owidth, int oheight, boolean moveBack) {
     this(identifier, x, y, owidth, oheight, "", moveBack);
@@ -12,13 +13,18 @@ class MoveToSceneObject extends GameObject {
   }
 
   public MoveToSceneObject(String identifier, int x, int y, int owidth, int oheight, String nextSceneIdentifier) {
-    this(identifier, x, y, owidth, oheight, "", nextSceneIdentifier);
+    this(identifier, x, y, owidth, oheight, "", nextSceneIdentifier, null);
+  }
+  
+  public MoveToSceneObject(String identifier, int x, int y, int owidth, int oheight, String gameObjectImageFile, String nextSceneIdentifier) {
+    this(identifier, x, y, owidth, oheight, gameObjectImageFile, nextSceneIdentifier, null);
   }
 
-  public MoveToSceneObject(String identifier, int x, int y, int owidth, int oheight, String gameObjectImageFile, String nextSceneIdentifier) {
+  public MoveToSceneObject(String identifier, int x, int y, int owidth, int oheight, String gameObjectImageFile, String nextSceneIdentifier, SoundFile sound) {
     super(identifier, x, y, owidth, oheight, gameObjectImageFile);
     this.nextSceneIdentifier = nextSceneIdentifier;
     this.moveBack = false;
+    this.sound = sound;
   }
 
   public void mouseClicked() {
@@ -28,7 +34,9 @@ class MoveToSceneObject extends GameObject {
         sceneManager.goToPreviousScene();
       } else {
         try {
-          whooshSound.play();
+          if (sound != null) {
+            sound.play();
+          }
           sceneManager.goToScene(nextSceneIdentifier);
         }
         catch(Exception e) {

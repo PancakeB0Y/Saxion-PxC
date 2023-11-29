@@ -2,7 +2,7 @@ class Collectable {
   private String name;
   private String gameObjectImageFile;
   public PImage gameObjectImage;
-  //Could be expanded to add an amount, for example
+  protected boolean isOpen = false;
 
   public Collectable(String name, String gameObjectImageFile) {
     this.name = name;
@@ -10,6 +10,12 @@ class Collectable {
     if (gameObjectImageFile != "") {
       this.gameObjectImage = loadImage(gameObjectImageFile);
     }
+  }
+
+  public void draw(){
+  }
+  
+  public void mousePressed(){
   }
 
   public String getName() {
