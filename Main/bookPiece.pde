@@ -1,7 +1,7 @@
 class BookPiece {
   float x;
-  float Y;
-  boolean select;
+  float y;
+  boolean selected;
   PImage pieceImage;
   int id;
   int bookHeight;
@@ -13,29 +13,29 @@ class BookPiece {
     this.parent = parent;
     this.gridSize = parent.gridSize;
     x = col * gridSize + parent.x;
-    Y = y + parent.mHeight - pieceImage.height;
+    this.y = y + parent.mHeight - pieceImage.height;
     this.pieceImage = pieceImage;
     pieceImage.resize(gridSize, pieceImage.height);
   }
 
   void display() {
-    image(pieceImage, x, Y);
-    if(select) 
+    image(pieceImage, x, y);
+    if(selected) 
     {
       fill(50, 0, 0, 50);
-      rect(x, Y, gridSize , pieceImage.height);
+      rect(x, y, gridSize , pieceImage.height);
     }
   }
   
   void mousePressed(){
     if(contains(mouseX, mouseY)){
-      select = true;
+      selected = true;
     }
   }
 
   boolean contains(float mx, float my) {
     mx = constrain(mx, parent.x, parent.x + parent.mWidth);
     my = constrain(my, parent.y, parent.y + parent.mHeight);
-    return mx > x && mx < x + gridSize && my > Y && my < Y + parent.mHeight;
+    return mx > x && mx < x + gridSize && my > y && my < y + parent.mHeight;
   }
 }

@@ -45,16 +45,16 @@ class GameObject {
 
   public void mouseMoved() {
     mouseIsHovering = false;
-    if (mouseX >= x - 5 && mouseX <= x + 5 + owidth &&
-      mouseY >= y - 5 && mouseY <= y + 5 + oheight) {
+    if (mouseX >= x - 15 && mouseX <= x + 15 + owidth &&
+      mouseY >= y - 15 && mouseY <= y + 15 + oheight) {
       mouseIsHovering = true;
     }
   }
 
   public void mouseClicked() {
     mouseIsHovering = false;
-    if (mouseX >= x - 5 && mouseX <= x + 5 + owidth &&
-      mouseY >= y - 5 && mouseY <= y + 5 + oheight) {
+    if (mouseX >= x - 15 && mouseX <= x + 15 + owidth &&
+      mouseY >= y - 15 && mouseY <= y + 15 + oheight) {
       mouseIsHovering = true;
     }
   }

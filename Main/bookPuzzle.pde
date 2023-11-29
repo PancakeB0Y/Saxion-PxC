@@ -44,8 +44,9 @@ class BookPuzzle extends CloseUp {
   }
 
   void draw() {
-    //drawGrid();
-
+    if(hasImage){
+      image(closeUpImage, x, y);
+    }
     for (BookPiece Book : Books) {
       Book.display();
     }
@@ -66,7 +67,7 @@ class BookPuzzle extends CloseUp {
     for (BookPiece bookOnMouse : Books) {
       if (bookOnMouse.contains(mouseX, mouseY)) {
         for (BookPiece bookToSwitch : Books) {
-          if (bookToSwitch != bookOnMouse && bookToSwitch.select) {
+          if (bookToSwitch != bookOnMouse && bookToSwitch.selected) {
             int colOnMouse = floor((bookOnMouse.x - x) / gridSize);
             int colToSwitch = floor((bookToSwitch.x - x) / gridSize);
             float tempX = bookOnMouse.x;
@@ -74,8 +75,8 @@ class BookPuzzle extends CloseUp {
             bookToSwitch.x = tempX;
             grid[colOnMouse] = bookToSwitch.id;
             grid[colToSwitch] = bookOnMouse.id;
-            bookOnMouse.select = false;
-            bookToSwitch.select = false;
+            bookOnMouse.selected = false;
+            bookToSwitch.selected = false;
             chechWin();
           }
         }
