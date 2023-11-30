@@ -80,11 +80,11 @@ void loadScenes() {
   startMenu.addGameObject(startButton);
   startMenu.addGameObject(quitButton);
 
-  Scene scene01 = new Scene("scene01", "scene01.jpg", backgroundSound);
+  Scene scene01 = new Scene("scene01", "scene01_Closed.jpg", backgroundSound);
   Collectable stone = new Collectable("stone", "stone.png");
   CollectableObject colStone = new CollectableObject("stone_scene01", width - width/5 - 580, height/2 + 50, 60, 60, "stone.png", stone);
-  MoveToSceneObject moveToScene02 = new MoveToSceneObject("goToScene02_scene01", width/6 - 100, height * 3/6 - 100, 70, 50, "arrowUp.png", "scene02", whooshSound);
-  RequireObject lock = new RequireObject("requiresStone_scene01", width/6 - 100, height * 3/6 - 100, 50, 50, "lock.png", "This lock seems brittle....", stone, moveToScene02, false, lockBreakSound);
+  MoveToSceneObject moveToScene02 = new MoveToSceneObject("goToScene02_scene01", width/6 - 100, height * 3/6 - 100, 50, 50, "arrowUp.png", "scene02", whooshSound);
+  RequireObject lock = new RequireObject("requiresStone_scene01", 300, 400, 50, 70, "lock.png", "This lock seems brittle....", stone, moveToScene02, false, lockBreakSound, "scene01_Open.jpg");
   scene01.addGameObject(colStone);
   scene01.addGameObject(lock);
 
@@ -97,11 +97,11 @@ void loadScenes() {
   Scene scene03 = new Scene("scene03", "scene03.jpg");
   MoveToSceneObject goBackScene02_scene03 = new MoveToSceneObject("goBack_scene02_scene03", width/2 - inventoryWidth/2 - 20, height * 5/6, 70, 50, "arrowDown.png", true);
   TextObject hideBehindBarrels = new TextObject("hideBehindBarrels", 0, 0, 0, 0, "", "Hide behind barrels", 65, 350, "", true, 30, true);
-  MoveToSceneObject moveToHideScene = new MoveToSceneObject("goToHideScene_scene04", 200, 450, 70, 50, "arrowDown.png", "hideScene");
-  TextObject hideInsideCabinet = new TextObject("hideInsideCabinet", 0, 0, 0, 0, "", "Hide inside cabinet", 960, 350, "", true, 30, true);
-  MoveToSceneObject moveToHideScene2 = new MoveToSceneObject("goTohideSceneCabinet1_scene03", 1100, 450, 70, 50, "arrowDown.png", "hideSceneCabinet1");
+  MoveToSceneObject moveToHideScene = new MoveToSceneObject("scene03_Hide_Barrels.jpg", 200, 450, 70, 50, "arrowDown.png", "hideScene");
+  TextObject hideInsideCabinet = new TextObject("hideInsideCabinet", 0, 0, 0, 0, "", "Hide inside closet", 960, 350, "", true, 30, true);
+  MoveToSceneObject moveToHideScene2 = new MoveToSceneObject("scene03_Hide_Closet.jpg", 1100, 450, 70, 50, "arrowDown.png", "hideSceneCabinet1");
   TextObject hideBehindPillar = new TextObject("hideBehindPillar", 0, 0, 0, 0, "", "Hide behind pillar", 1260, 350, "", true, 30, true);
-  MoveToSceneObject moveToHideScene3 = new MoveToSceneObject("goTohideScenePillar1_scene03", 1400, 450, 70, 50, "arrowDown.png", "hideScenePillar1");
+  MoveToSceneObject moveToHideScene3 = new MoveToSceneObject("scene03_Hide_Pillar.jpg", 1400, 450, 70, 50, "arrowDown.png", "hideScenePillar1");
   MoveToSceneObject moveToGameOverScene = new MoveToSceneObject("goToGameOverScene3_scene03", width/2 - 130, height * 1/6 + 120, 50, 33, "arrowUp.png", "gameOverScene", deadSound);
   scene03.addGameObject(goBackScene02_scene03);
   scene03.addGameObject(hideBehindBarrels);
@@ -112,9 +112,9 @@ void loadScenes() {
   scene03.addGameObject(moveToHideScene3);
   scene03.addGameObject(moveToGameOverScene);
 
-  Scene hideScene = new Scene("hideScene", "");
+  Scene hideScene = new Scene("hideScene", "scene03_Hide_Barrels.jpg");
   MoveToSceneObject moveToScene03_2 = new MoveToSceneObject("goToScene03_2_scene03", width/2 - 100, height * 5/6, 70, 50, "arrowDown.png", "scene03_2", whooshSound);
-  RequireObject stoneTarget = new RequireObject("requiresStone_hideScene", width/2 - 100, height * 3/6 - 100, 50, 50, "medal1.png", "", stone, moveToScene03_2);
+  RequireObject stoneTarget = new RequireObject("requiresStone_hideScene", 1175, 150, 50, 50, "medal1.png", "", stone, moveToScene03_2);
   hideScene.addGameObject(stoneTarget);
 
   Scene hideSceneCabinet1 = new Scene("hideSceneCabinet1", "hideSceneCabinet1.png", false);
@@ -135,16 +135,16 @@ void loadScenes() {
   scene04.addGameObject(goBackScene03);
   scene04.addGameObject(moveToScene05);
 
-  Scene scene05 = new Scene("scene05", "scene05.jpg");
+  Scene scene05 = new Scene("scene05", "scene05_Doors_Closed.jpg");
   MoveToSceneObject goBackScene04 = new MoveToSceneObject("goBack_scene04", width/2 - 100, height * 5/6, 70, 50, "arrowDown.png", true);
-  RequireObject inspectDoor1 = new RequireObject("inspectDoor1", 620, 590, 50, 50, "apple.png", "This door is locked", (Collectable)null, null);
-  MoveToSceneObject moveToScene06 = new MoveToSceneObject("goToScene06_scene05", width/3 + 285, 605, 50, 50, "apple.png", "scene06", whooshSound);
+  RequireObject inspectDoor1 = new RequireObject("inspectDoor1", 620, 590, 50, 50, "lock.png", "This door is locked", (Collectable)null, null);
+  MoveToSceneObject moveToScene06 = new MoveToSceneObject("goToScene06_scene05", width/3 + 285, 605, 50, 50, "arrowUp.png", "scene06", whooshSound);
   MosaicPuzzle mosaic = new MosaicPuzzle("mosaic", 600, 200, 600, 600, "mosaic_white.png");
-  RequireObject inspectDoor2 = new RequireObject("inspectDoor2", width/3 + 285, 605, 50, 50, "apple.png", "This door is locked", mosaic, moveToScene06, null);
+  RequireObject inspectDoor2 = new RequireObject("inspectDoor2", width/3 + 285, 605, 50, 50, "lock.png", "This door is locked", mosaic, moveToScene06, null, "scene05_Doors_Middel_Open.jpg");
   CloseUpObject mosaicObject = new CloseUpObject("mosaicObject", 835, 410, 100, 100, "mosaic_white.png", mosaic);
   Collectable crystal = new Collectable("crystal", "crystal.png");
-  MoveToSceneObject moveToScene07 = new MoveToSceneObject("goToScene07_scene05", width * 4/6 + 55, 630, 50, 50, "apple.png", "scene07", whooshSound);
-  RequireObject inspectDoor3 = new RequireObject("inspectDoor3", width * 4/6 - 100, 430, 300, 300, "apple.png", "This door is locked", crystal, moveToScene07);
+  MoveToSceneObject moveToScene07 = new MoveToSceneObject("goToScene07_scene05", width * 4/6 + 55, 630, 50, 50, "arrowUp.png", "scene07", whooshSound);
+  RequireObject inspectDoor3 = new RequireObject("inspectDoor3", width * 4/6 + 55, 630, 50, 50, "lock.png", "This door is locked", crystal, moveToScene07, "");
   scene05.addGameObject(goBackScene04);
   scene05.addGameObject(inspectDoor1);
   scene05.addGameObject(inspectDoor2);
@@ -186,6 +186,11 @@ void loadScenes() {
   RestartObject restartButton2 = new RestartObject("restartButton", width/2 - 300, 100, 505, 147, "restartButton.png");
   gameOverScene.addGameObject(restartButton2);
 
+  sceneManager.addScene(scene05);
+  sceneManager.addScene(scene06);
+  sceneManager.addScene(scene07);
+  sceneManager.addScene(scene08);
+  
   sceneManager.addScene(startMenu);
   sceneManager.addScene(scene01);
   sceneManager.addScene(scene02);
@@ -193,10 +198,7 @@ void loadScenes() {
   sceneManager.addScene(hideScene);
   sceneManager.addScene(scene03_2);
   sceneManager.addScene(scene04);
-  sceneManager.addScene(scene05);
-  sceneManager.addScene(scene06);
-  sceneManager.addScene(scene07);
-  sceneManager.addScene(scene08);
+  
   sceneManager.addScene(victoryScene);
   sceneManager.addScene(gameOverScene);
   sceneManager.addScene(hideSceneCabinet1);
