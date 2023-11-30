@@ -75,10 +75,14 @@ void loadScenes() {
   inventoryDisplay = new InventoryDisplay("inventory.png");
 
   Scene startMenu = new Scene("scene01", "startImage.png", false);
-  MoveToSceneObject startButton = new MoveToSceneObject("goToScene01", wwidth/2 - 505/2, 400, 505, 147, "startButton.png", "scene01");
-  QuitObject quitButton = new QuitObject("quitButton", wwidth/2 - 505/2, 600, 505, 147, "quitButton.png");
+  MoveToSceneObject startButton = new MoveToSceneObject("goOpeningTextScene", 330, 470, 505, 147, "startButton.png", "openingTextScene");
+  QuitObject quitButton = new QuitObject("quitButton", 330, 650, 505, 147, "quitButton.png");
   startMenu.addGameObject(startButton);
   startMenu.addGameObject(quitButton);
+
+  Scene openingTextScene = new Scene("openingTextScene", "startImage2.png", false);
+  MoveToSceneObject moveToScene01 = new MoveToSceneObject("goToScene01", 1750, 850, 70, 100, "arrowRight.png", "scene01");
+  openingTextScene.addGameObject(moveToScene01);
 
   Scene scene01 = new Scene("scene01", "scene01_Closed.jpg", backgroundSound);
   Collectable stone = new Collectable("stone", "stone.png");
@@ -195,6 +199,7 @@ void loadScenes() {
   gameOverScene.addGameObject(restartButton2);
 
   sceneManager.addScene(startMenu);
+  sceneManager.addScene(openingTextScene);
   sceneManager.addScene(scene01);
   sceneManager.addScene(scene02);
   sceneManager.addScene(scene03);

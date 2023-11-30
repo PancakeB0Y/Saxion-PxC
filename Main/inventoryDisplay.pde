@@ -11,7 +11,7 @@ class InventoryDisplay {
   InventoryDisplay(String inventoryImageFile) {
     this.inventoryImage = loadImage(inventoryImageFile);
     beingDragged = null;
-    startX = wwidth - (inventoryWidth/1.25) - 25;
+    startX = wwidth - (inventoryWidth/1.25) - 35;
     startY = 50;
     rowSpacing = wwidth/18.0 + 25;
     colSpacing = wheight/12.0;
@@ -21,7 +21,7 @@ class InventoryDisplay {
     image(inventoryImage, wwidth - inventoryWidth - 110, 0, inventoryWidth + 110, wheight);
     for (int i = 0; i < inventoryManager.collectables.size(); i++) {
       Collectable curCollectable = inventoryManager.collectables.get(i);
-      image(curCollectable.gameObjectImage, startX + (rowSpacing * (i%2)), startY + (colSpacing * ceil(i/2)), 60, 60);
+      image(curCollectable.gameObjectImage, startX + (rowSpacing * (i%2)), startY + (colSpacing * ceil(i/2)), 90, 90);
       if (curCollectable.getClass().getSimpleName().equals("CloseUpCollectable")) {
         curCollectable.draw();
       }
@@ -62,8 +62,8 @@ class InventoryDisplay {
         Collectable curCollectable = inventoryManager.collectables.get(i);
         float curColX = startX + (rowSpacing * (i%2));
         float curColY = startY + (colSpacing * ceil(i/2));
-        if (mouseX >= curColX && mouseX <= curColX + 60 &&
-          mouseY >= curColY && mouseY <= curColY + 60) {
+        if (mouseX >= curColX && mouseX <= curColX + 90 &&
+          mouseY >= curColY && mouseY <= curColY + 90) {
           collectable = curCollectable;
           return collectable;
         }
