@@ -11,6 +11,20 @@ class TextObject extends GameObject {
   private boolean stayOnScreen = false;
 
   public TextObject(String identifier, int x, int y, int owidth,
+    int oheight, String gameObjectImageFile, String text, String backgroundImageFile, int imageWidth, int imageHeight) {
+    super(identifier, x, y, owidth, oheight, gameObjectImageFile);
+    this.text = text;
+    hasBackground = !backgroundImageFile.equals("");
+    if (hasBackground) {
+      backgroundImage = loadImage(backgroundImageFile);
+    }
+    displayText = false;
+    textSize = 50;
+    textWidth = imageWidth;
+    textHeight = imageHeight;
+  }
+  
+  public TextObject(String identifier, int x, int y, int owidth,
     int oheight, String gameObjectImageFile, String text, int textX, int textY, String backgroundImageFile, boolean displayText, int textSize, boolean stayOnScreen) {
     super(identifier, x, y, owidth, oheight, gameObjectImageFile);
     this.text = text;
@@ -48,6 +62,9 @@ class TextObject extends GameObject {
   @Override
     public void draw() {
     super.draw();
+    if (displayText && hasBackground) {
+        image(backgroundImage, textX, textY, textWidth + 30, textHeight);
+    }
     if (displayText && text != "") {
       if (hasBackground) {
         image(backgroundImage, textX, textY, textWidth + 30, textHeight);
@@ -63,8 +80,18 @@ class TextObject extends GameObject {
       }
     }
   }
+  //@Override
+  //  public void mouseClicked() {
+  //  if (!stayOnScreen) {
+  //    displayText = false;
+  //    if (mouseIsHovering) {
+  //      displayText = true;
+  //    }
+  //  }
+  //}
+  
   @Override
-    public void mouseClicked() {
+    public void mousePressed() {
     if (!stayOnScreen) {
       displayText = false;
       if (mouseIsHovering) {

@@ -36,7 +36,7 @@ class MoveToSceneObject extends GameObject {
       mouseY >= y - 15 && mouseY <= y + 15 + oheight) {
       mouseIsHovering = true;
     }
-    if (mouseIsHovering) {
+    if (mouseIsHovering && !sequencePuzzle.isOpen) {
       if (moveBack) {
         sceneManager.goToPreviousScene();
       } else {

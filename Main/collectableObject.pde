@@ -2,10 +2,21 @@ class CollectableObject extends GameObject {
   private Collectable collectable;
   private GameObject replaceWith;
   private boolean willReplaceByAnotherGameObject;
+  private String newBackgroundImageFile = "";
+  private PImage newBackgroundImage;
+
+  public CollectableObject(String identifier, int x, int y, int owidth,
+    int oheight, String gameObjectImageFile, Collectable collectable, String newBackgroundImageFile) {
+    this(identifier, x, y, owidth, oheight, gameObjectImageFile, collectable, (GameObject)null);
+    this.newBackgroundImageFile = newBackgroundImageFile;
+    if (newBackgroundImageFile!="") {
+      newBackgroundImage = loadImage(newBackgroundImageFile);
+    }
+  }
 
   public CollectableObject(String identifier, int x, int y, int owidth,
     int oheight, String gameObjectImageFile, Collectable collectable) {
-    this(identifier, x, y, owidth, oheight, gameObjectImageFile, collectable, null);
+    this(identifier, x, y, owidth, oheight, gameObjectImageFile, collectable, (GameObject)null);
   }
 
   public CollectableObject(String identifier, int x, int y, int owidth,
@@ -25,24 +36,15 @@ class CollectableObject extends GameObject {
     super.draw();
   }
 
-  //@Override
-  //  public void mouseClicked() {
-  //  if (mouseIsHovering) {
-  //    interactSound.play();
-  //    inventoryManager.addCollectable(collectable);
-  //    sceneManager.getCurrentScene().removeGameObject(this);
-  //    if (willReplaceByAnotherGameObject) {
-  //      sceneManager.getCurrentScene().addGameObject(replaceWith);
-  //    }
-  //  }
-  //}
-  
   @Override
     public void mousePressed() {
     if (mouseIsHovering) {
       interactSound.play();
       inventoryManager.addCollectable(collectable);
       sceneManager.getCurrentScene().removeGameObject(this);
+      if (newBackgroundImageFile!="") {
+        sceneManager.getCurrentScene().backgroundImage = newBackgroundImage;
+      }
       if (willReplaceByAnotherGameObject) {
         sceneManager.getCurrentScene().addGameObject(replaceWith);
       }

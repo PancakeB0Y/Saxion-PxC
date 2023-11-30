@@ -86,7 +86,19 @@ class MosaicPuzzle extends CloseUp {
   }
 
   void mousePressed() {
-    super.mousePressed();
+    if (!isOpen) {
+      return;
+    }
+
+    if (mouseX < x || mouseX > x + mWidth || mouseY < y || mouseY > y + mHeight) {
+      isOpen = false;
+      if (!isWon) {
+        //Resets the puzzle if is exited before completion
+        pieces = new ArrayList<MosaicPiece>();
+        arrangePieces();
+      }
+    }
+    
     if (!isOpen || isWon) {
       return;
     }
@@ -153,15 +165,6 @@ class MosaicPuzzle extends CloseUp {
   void mouseClicked() {
     if (!isOpen) {
       return;
-    }
-
-    if (mouseX < x || mouseX > x + mWidth || mouseY < y || mouseY > y + mHeight) {
-      isOpen = false;
-      if (!isWon) {
-        //Resets the puzzle if is exited before completion
-        pieces = new ArrayList<MosaicPiece>();
-        arrangePieces();
-      }
     }
   }
 }
