@@ -15,7 +15,7 @@ class MoveToSceneObject extends GameObject {
   public MoveToSceneObject(String identifier, int x, int y, int owidth, int oheight, String nextSceneIdentifier) {
     this(identifier, x, y, owidth, oheight, "", nextSceneIdentifier, null);
   }
-  
+
   public MoveToSceneObject(String identifier, int x, int y, int owidth, int oheight, String gameObjectImageFile, String nextSceneIdentifier) {
     this(identifier, x, y, owidth, oheight, gameObjectImageFile, nextSceneIdentifier, null);
   }
@@ -27,8 +27,12 @@ class MoveToSceneObject extends GameObject {
     this.sound = sound;
   }
 
-  public void mouseClicked() {
-    super.mouseClicked();
+  @Override
+    public void mouseClicked() {
+  }
+
+  public void mousePressed() {
+    super.mousePressed();
     if (mouseIsHovering) {
       if (moveBack) {
         sceneManager.goToPreviousScene();
@@ -38,7 +42,7 @@ class MoveToSceneObject extends GameObject {
             sound.play();
           }
           sceneManager.goToScene(nextSceneIdentifier);
-          if(sceneManager.getScene(nextSceneIdentifier).sound != null){
+          if (sceneManager.getScene(nextSceneIdentifier).sound != null) {
             sceneManager.getScene(nextSceneIdentifier).sound.play();
           }
         }

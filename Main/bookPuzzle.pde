@@ -26,6 +26,9 @@ class BookPuzzle extends CloseUp {
 
     mWidth = cols * gridSize;
 
+    //for (PImage curImage : pieceImages) {
+    //  curImage.resize(curImage.width, bHeight);
+    //}
     for (int c = 0; c < cols; c++) {
       int i = checkPuzzlePiece(c);
       grid[c] = i;
@@ -44,7 +47,7 @@ class BookPuzzle extends CloseUp {
   }
 
   void draw() {
-    if(hasImage){
+    if (hasImage) {
       image(closeUpImage, x, y);
     }
     for (BookPiece Book : Books) {
@@ -59,6 +62,14 @@ class BookPuzzle extends CloseUp {
   }
 
   void mousePressed() {
+    if (!isOpen) {
+      return;
+    }
+
+    if (mouseX < x || mouseX > x + mWidth || mouseY < y || mouseY > y + mHeight) {
+      isOpen = false;
+    }
+
     //Check whether the mouse click is within one of the squares
     for (BookPiece book : Books) {
       book.mousePressed();

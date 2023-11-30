@@ -47,10 +47,6 @@ class CloseUp {
     if (!isOpen) {
       return;
     }
-
-    if (mouseX < x || mouseX > x + mWidth || mouseY < y || mouseY > y + mHeight) {
-      isOpen = false;
-    }
   }
 
   void mouseReleased() {
@@ -63,5 +59,12 @@ class CloseUp {
   }
 
   void mousePressed() {
+    if (!isOpen) {
+      return;
+    }
+
+    if (mouseX < x || mouseX > x + mWidth || mouseY < y || mouseY > y + mHeight) {
+      isOpen = false;
+    }
   }
 }

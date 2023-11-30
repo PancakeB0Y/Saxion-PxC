@@ -21,7 +21,7 @@ SoundFile monsterApproachingSound;
 float footstepsVolume = 0;
 float volumeIncrease = 0;
 float volumeIncreaseMultiplier = 1.0;
-float footstepsRate = 1.5;
+float footstepsRate = 2;
 float footstepsRateIncrease = 0;
 
 boolean chaseStarted = false;
@@ -68,7 +68,7 @@ void loadScenes() {
   monsterApproachingSound.stop();
   monsterApproachingSound.loop();
   footstepsVolume = 0.001;
-  footstepsRate = 1.5;
+  footstepsRate = 2;
   footstepsRateIncrease = 0;
   isGameOver = false;
 
@@ -163,7 +163,7 @@ void loadScenes() {
   Scene scene07 = new Scene("scene07", "scene07.jpg");
   MoveToSceneObject goBackScene06 = new MoveToSceneObject("goBack_scene06", width/2 - 100, height * 5/6, 70, 50, "arrowDown.png", true);
   MoveToSceneObject moveToScene08 = new MoveToSceneObject("goToScene08_scene07", 500, 400, 50, 50, "arrowUp.png", "scene08", whooshSound);
-  BookPuzzle bookPuzzle = new BookPuzzle("mosaic", 600, 0, 600, 600, "");
+  BookPuzzle bookPuzzle = new BookPuzzle("mosaic", 600, 200, 600, 400, "");
   CloseUpObject bookPuzzleObject = new CloseUpObject("bookPuzzleObject", 500, 400, 100, 100, "mosaic_white.png", bookPuzzle, moveToScene08);
   scene07.addGameObject(goBackScene06);
   scene07.addGameObject(bookPuzzleObject);
@@ -183,7 +183,7 @@ void loadScenes() {
   victoryScene.addGameObject(restartButton1);
 
   Scene gameOverScene = new Scene("gameOverScene", "jumpscare.png", false);
-  RestartObject restartButton2 = new RestartObject("restartButton", width/2 - (505/2), 100, 505, 147, "restartButton.png");
+  RestartObject restartButton2 = new RestartObject("restartButton", width/2 - 300, 100, 505, 147, "restartButton.png");
   gameOverScene.addGameObject(restartButton2);
 
   sceneManager.addScene(startMenu);
@@ -213,7 +213,7 @@ void restart() {
 
 void draw()
 {
-  //println(footstepsVolume);
+  println(footstepsVolume);
   sceneManager.getCurrentScene().draw();
   sceneManager.getCurrentScene().updateScene();
   inventoryManager.clearMarkedForDeathCollectables();
@@ -240,7 +240,7 @@ void draw()
     volumeIncreaseMultiplier+=0.008;
   }
 
-  if (footstepsVolume >= 0.17 && !isMonsterClose) {
+  if (footstepsVolume >= 0.15 && !isMonsterClose) {
     monsterCloseIndicatorSound.play();
     isMonsterClose = true;
   }
