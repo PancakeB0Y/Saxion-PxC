@@ -43,6 +43,9 @@ class CloseUpObject extends GameObject {
       closeUp.mouseReleased();
     } else {
       super.mouseReleased();
+      if (mouseIsHovering) {
+        closeUp.isOpen = true;
+      }
     }
 
     if (closeUp.isWon) {

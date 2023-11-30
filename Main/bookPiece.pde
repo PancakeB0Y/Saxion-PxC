@@ -36,6 +36,6 @@ class BookPiece {
   boolean contains(float mx, float my) {
     mx = constrain(mx, parent.x, parent.x + parent.mWidth);
     my = constrain(my, parent.y, parent.y + parent.mHeight);
-    return mx > x && mx < x + gridSize && my > y && my < y + parent.mHeight;
+    return mx > x && mx < x + gridSize && my > y && my < y + pieceImage.height;
   }
 }
