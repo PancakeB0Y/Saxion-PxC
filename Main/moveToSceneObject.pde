@@ -27,12 +27,15 @@ class MoveToSceneObject extends GameObject {
     this.sound = sound;
   }
 
-  @Override
-    public void mouseClicked() {
+  public void mousePressed() {
   }
 
-  public void mousePressed() {
-    super.mousePressed();
+  public void mouseReleased() {
+    mouseIsHovering = false;
+    if (mouseX >= x - 15 && mouseX <= x + 15 + owidth &&
+      mouseY >= y - 15 && mouseY <= y + 15 + oheight) {
+      mouseIsHovering = true;
+    }
     if (mouseIsHovering) {
       if (moveBack) {
         sceneManager.goToPreviousScene();
