@@ -12,11 +12,11 @@ class BookPuzzle extends CloseUp {
   BookPuzzle(String name, int x, int y, int bWidth, int bHeight, String minigameImageFile) {
     super( name, x, y, bWidth, bHeight, minigameImageFile);
 
-    pieceImages.add(loadImage("book0.png"));
-    pieceImages.add(loadImage("book1.png"));
-    pieceImages.add(loadImage("book2.png"));
-    pieceImages.add(loadImage("book3.png"));
-    pieceImages.add(loadImage("book4.png"));
+    pieceImages.add(loadImage("Book0.png"));
+    pieceImages.add(loadImage("Book1.png"));
+    pieceImages.add(loadImage("Book2.png"));
+    pieceImages.add(loadImage("Book3.png"));
+    pieceImages.add(loadImage("Book4.png"));
 
     gridSize = bWidth/5;
 
