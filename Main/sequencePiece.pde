@@ -20,10 +20,12 @@ class SequencePiece {
   }
 
   void display() {
-    image(imageDim, x + parent.x, y + parent.y, gridSize, gridSize);
+    if (imageDim != null) {
+      image(imageDim, x + parent.x, y + parent.y, gridSize, gridSize);
+    }
     if (selected)
     {
-      image(imageLit, x + parent.x, y + parent.y, gridSize, gridSize);
+      image(imageLit, 0, 100, width - inventoryWidth, height - 100);
     }
   }
 
