@@ -27,13 +27,16 @@ class SceneManager {
       if (sceneManager.getScene(sceneName).sceneName == "hideScene") {
         volumeIncrease = 0;
         volumeIncreaseMultiplier = 1;
-        footstepsVolume = 0;
+        footstepsVolume = 0.1;
         footstepsRate = 1.5;
         footstepsRateIncrease = 0;
         chaseStarted = false;
+        monsterCloseIndicatorSound.stop();
       }
       if (sceneManager.getScene(sceneName).sceneName == "scene03_2") {
-        volumeIncrease = 0.00012;
+        footstepsVolume = 0;
+        whistlingStart = 0.39;
+        volumeIncrease = 0.00024;
         footstepsRateIncrease = 0.0005;
       }
     } else {

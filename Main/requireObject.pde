@@ -41,6 +41,22 @@ class RequireObject extends TextObject {
 
   public RequireObject(String identifier, int x, int y, int owidth, int oheight,
     String gameObjectImageFile, String text, String backgroundImageFile,
+    CloseUp minigame, GameObject replaceWith, SoundFile sound, String newBackgroundImageFile) {
+    super(identifier, x, y, owidth, oheight, gameObjectImageFile, text, backgroundImageFile, 400, 120);
+    this.minigame = minigame;
+    this.replaceWith = replaceWith;
+    requiredCollectableOnTop = false;
+    this.removeOnDrop = false;
+    hasMinigame = true;
+    this.sound = sound;
+    this.newBackgroundImageFile = newBackgroundImageFile;
+    if (newBackgroundImageFile!= "") {
+      newBackgroundImage = loadImage(newBackgroundImageFile);
+    }
+  }
+
+  public RequireObject(String identifier, int x, int y, int owidth, int oheight,
+    String gameObjectImageFile, String text, String backgroundImageFile,
     CloseUp minigame, GameObject replaceWith, SoundFile sound) {
     super(identifier, x, y, owidth, oheight, gameObjectImageFile, text, backgroundImageFile);
     this.minigame = minigame;
@@ -54,19 +70,23 @@ class RequireObject extends TextObject {
   public RequireObject(String identifier, int x, int y, int owidth, int oheight,
     String gameObjectImageFile, String text, String backgroundImageFile,
     Collectable collectable, GameObject replaceWith) {
-    this(identifier, x, y, owidth, oheight, gameObjectImageFile, text, backgroundImageFile, collectable, replaceWith, true, null);
+    this(identifier, x, y, owidth, oheight, gameObjectImageFile, text, backgroundImageFile, collectable, replaceWith, true, null, "");
   }
 
   public RequireObject(String identifier, int x, int y, int owidth, int oheight,
     String gameObjectImageFile, String text, String backgroundImageFile,
-    Collectable collectable, GameObject replaceWith, boolean removeOnDrop, SoundFile sound) {
-    super(identifier, x, y, owidth, oheight, gameObjectImageFile, text, backgroundImageFile);
+    Collectable collectable, GameObject replaceWith, boolean removeOnDrop, SoundFile sound, String newBackgroundImageFile) {
+    super(identifier, x, y, owidth, oheight, gameObjectImageFile, text, backgroundImageFile, 400, 120);
     this.collectable = collectable;
     this.replaceWith = replaceWith;
     requiredCollectableOnTop = false;
     this.removeOnDrop = removeOnDrop;
     hasMinigame = false;
     this.sound = sound;
+    this.newBackgroundImageFile = newBackgroundImageFile;
+    if (newBackgroundImageFile!= "") {
+      newBackgroundImage = loadImage(newBackgroundImageFile);
+    }
   }
 
 
@@ -113,6 +133,11 @@ class RequireObject extends TextObject {
   }
 
   public void mouseReleased() {
+    mouseIsHovering = false;
+    if (mouseX >= x - 15 && mouseX <= x + 15 + owidth &&
+      mouseY >= y - 15 && mouseY <= y + 15 + oheight) {
+      mouseIsHovering = true;
+    }
     if (!hasMinigame) {
       if (requiredCollectableOnTop) {
         if (sound != null) {
