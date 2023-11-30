@@ -240,7 +240,7 @@ void draw()
     volumeIncreaseMultiplier+=0.008;
   }
 
-  if (footstepsVolume >= 0.17 && !isMonsterClose) {
+  if (footstepsVolume >= 0.16 && !isMonsterClose) {
     monsterCloseIndicatorSound.play();
     isMonsterClose = true;
   }

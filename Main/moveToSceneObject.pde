@@ -48,4 +48,26 @@ class MoveToSceneObject extends GameObject {
       }
     }
   }
+  
+  public void mousePressed() {
+    super.mousePressed();
+    if (mouseIsHovering) {
+      if (moveBack) {
+        sceneManager.goToPreviousScene();
+      } else {
+        try {
+          if (sound != null) {
+            sound.play();
+          }
+          sceneManager.goToScene(nextSceneIdentifier);
+          if(sceneManager.getScene(nextSceneIdentifier).sound != null){
+            sceneManager.getScene(nextSceneIdentifier).sound.play();
+          }
+        }
+        catch(Exception e) {
+          println(e.getMessage());
+        }
+      }
+    }
+  }
 }
