@@ -87,7 +87,7 @@ void loadScenes() {
   Collectable stone = new Collectable("stone", "stone.png");
   CollectableObject colStone = new CollectableObject("stone_scene01", width - width/5 - 580, height/2 + 50, 60, 60, "stone.png", stone);
   MoveToSceneObject moveToScene02 = new MoveToSceneObject("goToScene02_scene01", 200, 100, 175, 600, "", "scene02", whooshSound);
-  RequireObject lock = new RequireObject("requiresStone_scene01", 300, 400, 60, 75, "", "This lock seems brittle....", stone, moveToScene02, false, lockBreakSound, "scene01_Open.png");
+  RequireObject lock = new RequireObject("requiresStone_scene01", 300, 400, 80, 75, "", "This lock seems brittle....", stone, moveToScene02, false, lockBreakSound, "scene01_Open.png");
   scene01.addGameObject(colStone);
   scene01.addGameObject(lock);
 
@@ -191,7 +191,7 @@ void loadScenes() {
   victoryScene.addGameObject(restartButton1);
 
   Scene gameOverScene = new Scene("gameOverScene", "jumpscare.png", false);
-  RestartObject restartButton2 = new RestartObject("restartButton", width/2 - 300, 100, 505, 147, "restartButton.png");
+  RestartObject restartButton2 = new RestartObject("restartButton", width/2 - 505/2 - 20, 800, 505, 147, "restartButton.png");
   gameOverScene.addGameObject(restartButton2);
 
   sceneManager.addScene(startMenu);
@@ -282,6 +282,22 @@ void draw()
       if (lastTime>= timer) {
         try {
           sceneManager.goToScene("hideSceneCabinet2");
+        }
+        catch(Exception e) {
+          println(e);
+        }
+      }
+    }
+  }
+  
+  if (sceneManager.getCurrentScene().sceneName == "hideSceneCabinet2") {
+    if (!startTimer) {
+      startTimer();
+      isGameOver = true;
+    } else {
+      if (lastTime>= timer + 1000) {
+        try {
+          sceneManager.goToScene("gameOverScene");
         }
         catch(Exception e) {
           println(e);
