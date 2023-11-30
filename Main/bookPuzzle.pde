@@ -26,9 +26,9 @@ class BookPuzzle extends CloseUp {
 
     mWidth = cols * gridSize;
 
-    //for (PImage curImage : pieceImages) {
-    //  curImage.resize(curImage.width, bHeight);
-    //}
+    for (PImage curImage : pieceImages) {
+      curImage.resize(curImage.width, bHeight);
+    }
     for (int c = 0; c < cols; c++) {
       int i = checkPuzzlePiece(c);
       grid[c] = i;

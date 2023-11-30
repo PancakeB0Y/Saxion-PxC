@@ -1,5 +1,5 @@
 class SequencePuzzle extends CloseUp {
-  IntList piecesOrder = new IntList(0, 1, 2, 3, 4, 5);
+  IntList piecesOrder = new IntList(0, 1, 2, 3, 4);
   ArrayList<SequencePiece> pieces = new ArrayList<SequencePiece>();
   ArrayList<Integer> clickedPiecesOrder = new ArrayList<Integer>() ;
 
@@ -8,12 +8,13 @@ class SequencePuzzle extends CloseUp {
 
     piecesOrder.shuffle();
 
-    pieces.add(new SequencePiece(0, 75, 250, loadImage("jumpscare.png"), loadImage("crystal.png"), 100, this));
-    pieces.add(new SequencePiece(1, 175, 100, loadImage("jumpscare.png"), loadImage("crystal.png"), 100, this));
-    pieces.add(new SequencePiece(2, 325, 100, loadImage("jumpscare.png"), loadImage("crystal.png"), 100, this));
-    pieces.add(new SequencePiece(3, 425, 250, loadImage("jumpscare.png"), loadImage("crystal.png"), 100, this));
-    pieces.add(new SequencePiece(4, 175, 400, loadImage("jumpscare.png"), loadImage("crystal.png"), 100, this));
-    pieces.add(new SequencePiece(5, 325, 400, loadImage("jumpscare.png"), loadImage("crystal.png"), 100, this));
+    //350 -20
+    pieces.add(new SequencePiece(0, 400, 380, null, loadImage("sequencePiece1.png"), 170, this));
+    pieces.add(new SequencePiece(1, 550, 80, null, loadImage("sequencePiece2.png"), 170, this));
+    pieces.add(new SequencePiece(2, 935, 80, null, loadImage("sequencePiece3.png"), 170, this));
+    pieces.add(new SequencePiece(3, 1100, 380, null, loadImage("sequencePiece4.png"), 170, this));
+    pieces.add(new SequencePiece(4, 750, 650, null, loadImage("sequencePiece5.png"), 190, this));
+    //pieces.add(new SequencePiece(5, 325, 400, loadImage("jumpscare.png"), loadImage("crystal.png"), 100, this));
   }
 
   void draw() {
@@ -26,6 +27,8 @@ class SequencePuzzle extends CloseUp {
   }
 
   void mousePressed() {
+    super.mousePressed();
+    
     //Check whether the mouse click is within one of the squares
     for (SequencePiece curPiece : pieces) {
       curPiece.mousePressed();

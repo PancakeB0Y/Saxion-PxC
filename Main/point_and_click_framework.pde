@@ -143,8 +143,8 @@ void loadScenes() {
   RequireObject inspectDoor2 = new RequireObject("inspectDoor2", width/3 + 285, 605, 50, 50, "lock.png", "This door is locked", mosaic, moveToScene06, null, "scene05_Doors_Middel_Open.jpg");
   CloseUpObject mosaicObject = new CloseUpObject("mosaicObject", 835, 410, 100, 100, "mosaic_white.png", mosaic);
   Collectable crystal = new Collectable("crystal", "crystal.png");
-  MoveToSceneObject moveToScene07 = new MoveToSceneObject("goToScene07_scene05", width * 4/6 + 55, 630, 50, 50, "arrowUp.png", "scene07", whooshSound);
-  RequireObject inspectDoor3 = new RequireObject("inspectDoor3", width * 4/6 + 55, 630, 50, 50, "lock.png", "This door is locked", crystal, moveToScene07, "");
+  MoveToSceneObject moveToLibrary01 = new MoveToSceneObject("goToLibrary01_scene05", width * 4/6 + 55, 630, 50, 50, "arrowUp.png", "library01", whooshSound);
+  RequireObject inspectDoor3 = new RequireObject("inspectDoor3", width * 4/6 + 55, 630, 50, 50, "lock.png", "This door is locked", crystal, moveToLibrary01, "");
   scene05.addGameObject(goBackScene04);
   scene05.addGameObject(inspectDoor1);
   scene05.addGameObject(inspectDoor2);
@@ -160,19 +160,27 @@ void loadScenes() {
   scene06.addGameObject(colCrystal);
   scene06.addGameObject(goBackScene05);
 
-  Scene scene07 = new Scene("scene07", "scene07.jpg");
+  Scene library01 = new Scene("library01", "library01.png");
+  MoveToSceneObject goBackLibrary01= new MoveToSceneObject("goBack_library01", width/2 - 100, height * 5/6, 70, 50, "arrowDown.png", true);
+  MoveToSceneObject moveToScene07 = new MoveToSceneObject("goToScene07_library01", 700, 600, 45, 30, "arrowUp.png", "scene07", whooshSound);
+  library01.addGameObject(goBackLibrary01);
+  library01.addGameObject(moveToScene07);
+
+  Scene scene07 = new Scene("scene07", "scene07.png");
   MoveToSceneObject goBackScene06 = new MoveToSceneObject("goBack_scene06", width/2 - 100, height * 5/6, 70, 50, "arrowDown.png", true);
-  MoveToSceneObject moveToScene08 = new MoveToSceneObject("goToScene08_scene07", 500, 400, 50, 50, "arrowUp.png", "scene08", whooshSound);
-  BookPuzzle bookPuzzle = new BookPuzzle("mosaic", 600, 200, 600, 400, "");
-  CloseUpObject bookPuzzleObject = new CloseUpObject("bookPuzzleObject", 500, 400, 100, 100, "mosaic_white.png", bookPuzzle, moveToScene08);
+  MoveToSceneObject moveToScene08 = new MoveToSceneObject("goToScene08_scene07", 900, 400, 45, 30, "arrowUp.png", "scene08", whooshSound);
+  BookPuzzle bookPuzzle = new BookPuzzle("mosaic", 600, 300, 600, 400, "");
+  CloseUpObject bookPuzzleObject = new CloseUpObject("bookPuzzleObject", 775, 440, 200, 120, "", bookPuzzle);
+  RequireObject changeLibraryImage = new RequireObject("changeLibraryImage", width/3 + 285, 605, 50, 50, "", "", bookPuzzle, moveToScene08, null, "library02.png");
   scene07.addGameObject(goBackScene06);
   scene07.addGameObject(bookPuzzleObject);
+  scene07.addGameObject(changeLibraryImage);
 
-  Scene scene08 = new Scene("scene08", "scene08.jpg");
-  MoveToSceneObject moveToVictoryScene = new MoveToSceneObject("goToVictoryScene_scene08", width/2 - 160, 400, 70, 50, "arrowUp.png", "victoryScene", whooshSound);
+  Scene scene08 = new Scene("scene08", "scene08.png");
+  MoveToSceneObject moveToVictoryScene = new MoveToSceneObject("goToVictoryScene_scene08", 607, 167, 439 - 40, 488, "openPortal.png", "victoryScene", whooshSound);
   MoveToSceneObject goBackScene07 = new MoveToSceneObject("goBack_scene07", width/2 - 100, height * 5/6, 70, 50, "arrowDown.png", true);
-  SequencePuzzle sequencePuzzle = new SequencePuzzle("mosaic", 500, 300, 600, 600, "mosaic_white.png");
-  CloseUpObject sequencePuzzleObject = new CloseUpObject("bookPuzzleObject", 1350, 570, 200, 100, "mosaic_white.png", sequencePuzzle, moveToVictoryScene);
+  SequencePuzzle sequencePuzzle = new SequencePuzzle("mosaic", 0, 100, width-inventoryWidth, height - 100, "sequencePuzzle.png");
+  CloseUpObject sequencePuzzleObject = new CloseUpObject("bookPuzzleObject", 1350, 570, 200, 100, "", sequencePuzzle, moveToVictoryScene);
   RequireObject inspectPortal = new RequireObject("inspectPortal", width/2 - 300, 200, 300, 400, "", "The portal isn't working", sequencePuzzle, moveToVictoryScene, null);
   scene08.addGameObject(goBackScene07);
   scene08.addGameObject(inspectPortal);
@@ -186,11 +194,6 @@ void loadScenes() {
   RestartObject restartButton2 = new RestartObject("restartButton", width/2 - 300, 100, 505, 147, "restartButton.png");
   gameOverScene.addGameObject(restartButton2);
 
-  sceneManager.addScene(scene05);
-  sceneManager.addScene(scene06);
-  sceneManager.addScene(scene07);
-  sceneManager.addScene(scene08);
-  
   sceneManager.addScene(startMenu);
   sceneManager.addScene(scene01);
   sceneManager.addScene(scene02);
@@ -198,7 +201,11 @@ void loadScenes() {
   sceneManager.addScene(hideScene);
   sceneManager.addScene(scene03_2);
   sceneManager.addScene(scene04);
-  
+  sceneManager.addScene(scene05);
+  sceneManager.addScene(scene06);
+  sceneManager.addScene(library01);
+  sceneManager.addScene(scene07);
+  sceneManager.addScene(scene08);
   sceneManager.addScene(victoryScene);
   sceneManager.addScene(gameOverScene);
   sceneManager.addScene(hideSceneCabinet1);
