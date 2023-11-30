@@ -25,15 +25,16 @@ class SceneManager {
         footstepsVolume-=0.02;
       }
       if (sceneManager.getScene(sceneName).sceneName == "hideScene") {
+        volumeIncrease = 0;
+        volumeIncreaseMultiplier = 1;
         footstepsVolume = 0;
-        volumeIncrease = 0.0000;
         footstepsRate = 1.5;
         footstepsRateIncrease = 0;
         chaseStarted = false;
       }
       if (sceneManager.getScene(sceneName).sceneName == "scene03_2") {
-        volumeIncrease = 0.0002;
-        footstepsRateIncrease = 0.0007;
+        volumeIncrease = 0.00012;
+        footstepsRateIncrease = 0.0005;
       }
     } else {
       throw new Exception("Scene not found with name: "+ sceneName + "." +

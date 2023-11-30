@@ -6,6 +6,26 @@ class TextObject extends GameObject {
   private float textWidth;
   private float textHeight;
   private float textSize;
+  private int textX = width/3 - 50;
+  private int textY = height * 6/7 - 60;
+  private boolean stayOnScreen = false;
+
+  public TextObject(String identifier, int x, int y, int owidth,
+    int oheight, String gameObjectImageFile, String text, int textX, int textY, String backgroundImageFile, boolean displayText, int textSize, boolean stayOnScreen) {
+    super(identifier, x, y, owidth, oheight, gameObjectImageFile);
+    this.text = text;
+    this.textX = textX;
+    this.textY = textY;
+    this.stayOnScreen = stayOnScreen;
+    hasBackground = !backgroundImageFile.equals("");
+    if (hasBackground) {
+      backgroundImage = loadImage(backgroundImageFile);
+    }
+    this.displayText = displayText;
+    this.textSize = textSize;
+    calculateTextArea(); //Automatically calculates the area
+    //necessary to display the entire text.
+  }
 
   public TextObject(String identifier, int x, int y, int owidth,
     int oheight, String gameObjectImageFile, String text) {
@@ -30,24 +50,26 @@ class TextObject extends GameObject {
     super.draw();
     if (displayText && text != "") {
       if (hasBackground) {
-        image(backgroundImage, width/3 - 50, height * 6/7 - 60, textWidth + 30, textHeight);
+        image(backgroundImage, textX, textY, textWidth + 30, textHeight);
         fill(0);
         textSize(textSize);
-        text(text, width/3, height * 6/7);
+        text(text, textX + textHeight/1.5, textY + textHeight/1.5);
       } else {
         fill(255);
-        rect(width/3 - 50, height * 6/7 - 60, textWidth + 30, textHeight, 8);
+        rect(textX, textY, textWidth + 30, textHeight, 8);
         fill(0);
         textSize(textSize);
-        text(text, width/3, height * 6/7);
+        text(text, textX + textHeight/1.5, textY + textHeight/1.5);
       }
     }
   }
   @Override
     public void mouseClicked() {
-    displayText = false;
-    if (mouseIsHovering) {
-      displayText = true;
+    if (!stayOnScreen) {
+      displayText = false;
+      if (mouseIsHovering) {
+        displayText = true;
+      }
     }
   }
 
@@ -56,10 +78,18 @@ class TextObject extends GameObject {
     float remaining = textWidth - 100;
     textWidth = (textWidth > 1000) ? 1000 : textWidth;
     textHeight = 50;
-    while (remaining > 300)
-    {
-      textHeight += 30;
-      remaining -= 300;
+    if (textSize == 50) {
+      while (remaining > 300)
+      {
+        textHeight += 30;
+        remaining -= 300;
+      }
+    } else {
+      while (remaining > 100)
+      {
+        textHeight += 30;
+        remaining -= 100;
+      }
     }
   }
 }
