@@ -49,16 +49,9 @@ class GameObject {
       mouseY >= y - 15 && mouseY <= y + 15 + oheight) {
       mouseIsHovering = true;
     }
-    //println(identifier + " " + mouseIsHovering);
   }
 
   public void mouseClicked() {
-    mouseIsHovering = false;
-    if (mouseX >= x - 15 && mouseX <= x + 15 + owidth &&
-      mouseY >= y - 15 && mouseY <= y + 15 + oheight) {
-      mouseIsHovering = true;
-    }
-    //println(identifier + " " + mouseIsHovering);
   }
 
   public void mousePressed() {
@@ -67,10 +60,14 @@ class GameObject {
       mouseY >= y - 15 && mouseY <= y + 15 + oheight) {
       mouseIsHovering = true;
     }
-    println(identifier + " " + mouseIsHovering);
   }
 
   public void mouseReleased() {
+    mouseIsHovering = false;
+    if (mouseX >= x - 15 && mouseX <= x + 15 + owidth &&
+      mouseY >= y - 15 && mouseY <= y + 15 + oheight) {
+      mouseIsHovering = true;
+    }
   }
 
   public void mouseDragged() {

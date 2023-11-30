@@ -86,6 +86,7 @@ class MosaicPuzzle extends CloseUp {
   }
 
   void mousePressed() {
+    super.mousePressed();
     if (!isOpen || isWon) {
       return;
     }
