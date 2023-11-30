@@ -69,13 +69,13 @@ class RequireObject extends TextObject {
     this.sound = sound;
   }
 
-  
+
   public RequireObject(String identifier, int x, int y, int owidth, int oheight,
     String gameObjectImageFile, String text,
     Collectable collectable, GameObject replaceWith, String newBackgroundImageFile) {
     this(identifier, x, y, owidth, oheight, gameObjectImageFile, text, collectable, replaceWith, true, null, newBackgroundImageFile);
   }
-  
+
   public RequireObject(String identifier, int x, int y, int owidth, int oheight,
     String gameObjectImageFile, String text,
     Collectable collectable, GameObject replaceWith) {
@@ -140,6 +140,9 @@ class RequireObject extends TextObject {
     if (hasMinigame && minigame.isWon && !addedObjectOnce) {
       sceneManager.getCurrentScene().removeGameObject(this);
       sceneManager.getCurrentScene().addGameObject(replaceWith);
+      if (newBackgroundImageFile!="") {
+        sceneManager.getCurrentScene().backgroundImage = newBackgroundImage;
+      }
       addedObjectOnce = true;
     }
   }

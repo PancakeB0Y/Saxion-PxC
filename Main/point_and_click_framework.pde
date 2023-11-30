@@ -186,6 +186,11 @@ void loadScenes() {
   RestartObject restartButton2 = new RestartObject("restartButton", width/2 - 300, 100, 505, 147, "restartButton.png");
   gameOverScene.addGameObject(restartButton2);
 
+  sceneManager.addScene(scene05);
+  sceneManager.addScene(scene06);
+  sceneManager.addScene(scene07);
+  sceneManager.addScene(scene08);
+  
   sceneManager.addScene(startMenu);
   sceneManager.addScene(scene01);
   sceneManager.addScene(scene02);
@@ -193,10 +198,7 @@ void loadScenes() {
   sceneManager.addScene(hideScene);
   sceneManager.addScene(scene03_2);
   sceneManager.addScene(scene04);
-  sceneManager.addScene(scene05);
-  sceneManager.addScene(scene06);
-  sceneManager.addScene(scene07);
-  sceneManager.addScene(scene08);
+  
   sceneManager.addScene(victoryScene);
   sceneManager.addScene(gameOverScene);
   sceneManager.addScene(hideSceneCabinet1);
