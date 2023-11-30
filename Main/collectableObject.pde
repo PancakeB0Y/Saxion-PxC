@@ -36,4 +36,16 @@ class CollectableObject extends GameObject {
       }
     }
   }
+  
+  @Override
+    public void mousePressed() {
+    if (mouseIsHovering) {
+      interactSound.play();
+      inventoryManager.addCollectable(collectable);
+      sceneManager.getCurrentScene().removeGameObject(this);
+      if (willReplaceByAnotherGameObject) {
+        sceneManager.getCurrentScene().addGameObject(replaceWith);
+      }
+    }
+  }
 }
