@@ -22,7 +22,7 @@ class BookPiece {
     image(pieceImage, x, y);
     if(selected) 
     {
-      fill(50, 0, 0, 50);
+      fill(0, 0, 0, 50);
       rect(x, y, gridSize , pieceImage.height);
     }
   }

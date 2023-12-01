@@ -5,7 +5,7 @@ class Scene {
 
   private ArrayList<GameObject> recentlyAddedGameObjects;
   private ArrayList<GameObject> markedForDeathGameObjects;
-  
+
   private SoundFile sound;
   private boolean displayInventory;
 
@@ -16,7 +16,7 @@ class Scene {
   public Scene(String sceneName, String backgroundImageFile) {
     this(sceneName, backgroundImageFile, true, null);
   }
-  
+
   public Scene(String sceneName, String backgroundImageFile, boolean displayInventory) {
     this(sceneName, backgroundImageFile, displayInventory, null);
   }
@@ -65,6 +65,19 @@ class Scene {
         object.draw();
       }
       inventoryDisplay.draw();
+      if (footstepsVolume >= whistlingStart) {
+        if (millis() - flickerLastTime > 500) {
+          if (flickerOn) {
+            fill(0, 0, 0, 100);
+            rect(0, 0, width - inventoryWidth, height);
+            flickerOn = false;
+          }
+          if (!flickerOn) {
+            flickerOn = true;
+          }
+          flickerLastTime = millis();
+        }
+      }
     } else {
       if (backgroundImage!=null) {
         image(backgroundImage, 0, 0, wwidth, wheight);
@@ -73,6 +86,19 @@ class Scene {
       }
       for (GameObject object : gameObjects) {
         object.draw();
+      }
+      if (footstepsVolume >= whistlingStart) {
+        if (millis() - flickerLastTime > 500) {
+          if (flickerOn) {
+            fill(0, 0, 0, 100);
+            rect(0, 0, width, height);
+            flickerOn = false;
+          }
+          if (!flickerOn) {
+            flickerOn = true;
+          }
+          flickerLastTime = millis();
+        }
       }
     }
   }
