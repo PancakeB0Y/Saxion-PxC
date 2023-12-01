@@ -35,7 +35,7 @@ class SceneManager {
       }
       if (sceneManager.getScene(sceneName).sceneName == "scene03_2") {
         footstepsVolume = 0;
-        whistlingStart = 0.39;
+        whistlingStart = 0.35;
         volumeIncrease = 0.00024;
         footstepsRateIncrease = 0.0005;
       }

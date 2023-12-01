@@ -18,13 +18,16 @@ SoundFile monsterCloseIndicatorSound;
 SoundFile deadSound;
 SoundFile backgroundSound;
 SoundFile monsterApproachingSound;
+SoundFile glyphOnSound;
+SoundFile glyphOffSound;
+SoundFile victorySound;
 
 float footstepsVolume = 0;
 float volumeIncrease = 0;
 float volumeIncreaseMultiplier = 1.0;
 float footstepsRate = 2;
 float footstepsRateIncrease = 0;
-float whistlingStart = 0.3;
+float whistlingStart = 0.24;
 
 boolean chaseStarted = false;
 boolean isMonsterClose = false;
@@ -35,6 +38,9 @@ int lastTime = 0;
 int timeFromStart = 0;
 boolean startTimer = false;
 
+int flickerLastTime = 0;
+boolean flickerOn = true;
+
 SequencePuzzle sequencePuzzle;
 
 void settings()
@@ -44,15 +50,17 @@ void settings()
 
 void setup()
 {
+  frameRate(60);
   interactSound = new SoundFile(this, "interact.wav");
-  interactSound.amp(0.4);
+  interactSound.amp(0.3);
   whooshSound = new SoundFile(this, "whooshBig.wav");
-  whooshSound.amp(0.005);
+  whooshSound.amp(0.008);
   beatenPuzzleSound = new SoundFile(this, "sparkling.wav");
-  beatenPuzzleSound.amp(0.05);
+  beatenPuzzleSound.amp(0.07);
   lockBreakSound = new SoundFile(this, "lock_break.wav");
   lockBreakSound.amp(0.05);
   metalHitSound = new SoundFile(this, "metalHit.wav");
+  metalHitSound.amp(0.9);
   monsterStartSound = new SoundFile(this, "monsterStart.wav");
   monsterStartSound.amp(0.05);
   monsterCloseIndicatorSound = new SoundFile(this, "monsterCloseIndicator.wav");
@@ -64,20 +72,26 @@ void setup()
   monsterApproachingSound = new SoundFile(this, "footsteps.wav");
   monsterApproachingSound.amp(footstepsVolume);
   monsterApproachingSound.rate(footstepsRate);
-
+  glyphOnSound = new SoundFile(this, "glyphOn.wav");
+  glyphOnSound.amp(0.3);
+  glyphOffSound = new SoundFile(this, "glyphOff.wav");
+  glyphOffSound.amp(0.3);
+  victorySound = new SoundFile(this, "victory.wav");
+  victorySound.amp(0.7);
   loadScenes();
 }
 
 void loadScenes() {
   backgroundSound.stop();
   monsterApproachingSound.stop();
+  victorySound.stop();
   monsterApproachingSound.loop();
   footstepsVolume = 0;
   volumeIncrease = 0;
   volumeIncreaseMultiplier = 1.0;
   footstepsRate = 2;
   footstepsRateIncrease = 0;
-  whistlingStart = 0.3;
+  whistlingStart = 0.24;
   isGameOver = false;
 
   inventoryDisplay = new InventoryDisplay("inventory.png");
@@ -163,8 +177,7 @@ void loadScenes() {
   CloseUpObject mosaicObject = new CloseUpObject("mosaicObject", 835, 450, 90, 110, "", mosaic);
   Collectable crystal = new Collectable("crystal", "crystal.png");
   MoveToSceneObject moveToLibrary01 = new MoveToSceneObject("goToLibrary01_scene05", width * 4/6 - 60, 280, 200, 700, "", "library01", whooshSound);
-  RequireObject inspectDoor3 = new RequireObject("inspectDoor3", width * 4/6 - 80, 495, 300, 300, "", "", "lockedDoor.png", crystal, moveToLibrary01, true, null, "scene05_Doors_Both_Open.png");
-
+  RequireObject inspectDoor3 = new RequireObject("inspectDoor3", width * 4/6 - 80, 495, 300, 300, "", "", "lockedDoor.png", crystal, moveToLibrary01, true, beatenPuzzleSound, "scene05_Doors_Both_Open.png");
   scene05.addGameObject(goBackScene04);
   scene05.addGameObject(inspectDoor1);
   scene05.addGameObject(inspectDoor2);
@@ -197,7 +210,7 @@ void loadScenes() {
   scene07.addGameObject(changeLibraryImage);
 
   Scene scene08 = new Scene("scene08", "scene08.png");
-  MoveToSceneObject moveToVictoryScene = new MoveToSceneObject("goToVictoryScene_scene08", 607, 167, 439 - 40, 488, "openPortal.png", "victoryScene", whooshSound);
+  MoveToSceneObject moveToVictoryScene = new MoveToSceneObject("goToVictoryScene_scene08", 607, 167, 439 - 40, 488, "openPortal.png", "victoryScene", victorySound);
   MoveToSceneObject goBackScene07 = new MoveToSceneObject("goBack_scene07", width/2 - 100, height * 5/6, 70, 50, "arrowDown.png", true);
   sequencePuzzle = new SequencePuzzle("sequencePuzzle", 0, 100, width-inventoryWidth, height - 100, "sequencePuzzle.png");
   CloseUpObject sequencePuzzleObject = new CloseUpObject("bookPuzzleObject", 1350, 570, 200, 100, "", sequencePuzzle, moveToVictoryScene);
@@ -213,8 +226,6 @@ void loadScenes() {
   Scene gameOverScene = new Scene("gameOverScene", "jumpscare.png", false);
   RestartObject restartButton2 = new RestartObject("restartButton", width/2 - 505/2 - 20, 800, 505, 147, "restartButton.png");
   gameOverScene.addGameObject(restartButton2);
-
-
 
   sceneManager.addScene(startMenu);
   sceneManager.addScene(openingTextScene);
@@ -246,7 +257,7 @@ void restart() {
 
 void draw()
 {
-  println(footstepsVolume);
+  //println(footstepsVolume);
   sceneManager.getCurrentScene().draw();
   sceneManager.getCurrentScene().updateScene();
   inventoryManager.clearMarkedForDeathCollectables();
@@ -254,6 +265,7 @@ void draw()
   monsterApproachingSound.amp(footstepsVolume);
   monsterApproachingSound.rate(footstepsRate);
 
+  //Gradually increase the volume of footsteps
   footstepsVolume+=(volumeIncrease * volumeIncreaseMultiplier);
   footstepsRate+=footstepsRateIncrease;
 
@@ -273,12 +285,15 @@ void draw()
     volumeIncreaseMultiplier+=0.008;
   }
 
+  //When the monster gets close enough play a whistling sound
   if (footstepsVolume >= whistlingStart && !isMonsterClose) {
     monsterCloseIndicatorSound.play();
     isMonsterClose = true;
   }
+  
   //If the volue is loud enough the monster catches the player
-  if (footstepsVolume >= 0.44) {
+  //Distance between monster and player is "measured" by the volume of footstepsSound
+  if (footstepsVolume >= 0.40) {
     try {
       if (!isGameOver) {
         sceneManager.goToScene("gameOverScene");
@@ -296,7 +311,7 @@ void draw()
     lastTime = millis() - timeFromStart;
   }
 
-  //Changing of scenes for death sequences
+  //Changing of scenes for death in cabinet
   if (sceneManager.getCurrentScene().sceneName == "hideSceneCabinet1") {
     if (!startTimer) {
       startTimer();
@@ -331,7 +346,8 @@ void draw()
       }
     }
   }
-
+  
+  //Changing of scenes for death behind pillar
   if (sceneManager.getCurrentScene().sceneName == "hideScenePillar1") {
     if (!startTimer) {
       startTimer();

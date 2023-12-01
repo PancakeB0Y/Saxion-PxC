@@ -8,7 +8,6 @@ class SequencePuzzle extends CloseUp {
 
     piecesOrder.shuffle();
 
-    //350 -20
     pieces.add(new SequencePiece(0, 400, 380, null, loadImage("sequencePiece1.png"), 170, this));
     pieces.add(new SequencePiece(1, 550, 80, null, loadImage("sequencePiece2.png"), 170, this));
     pieces.add(new SequencePiece(2, 935, 80, null, loadImage("sequencePiece3.png"), 170, this));
@@ -28,7 +27,7 @@ class SequencePuzzle extends CloseUp {
 
   void mousePressed() {
     super.mousePressed();
-    
+
     //Check whether the mouse click is within one of the squares
     for (SequencePiece curPiece : pieces) {
       curPiece.mousePressed();
@@ -42,14 +41,26 @@ class SequencePuzzle extends CloseUp {
       }
 
       if (!compare()) {
+        println("selected wrong");
         for (SequencePiece curPiece2 : pieces) {
           curPiece2.selected = false;
         }
         clickedPiecesOrder = new ArrayList<Integer>();
-      } else if(compare() && clickedPiecesOrder.size() == piecesOrder.size()){
+      } else if (compare() && clickedPiecesOrder.size() == piecesOrder.size()) {
         isWon = true;
         println("books beaten");
         beatenPuzzleSound.play();
+      }
+    }
+
+    for (int i = 0; i < piecesOrder.size(); i++) {
+      SequencePiece curPiece = pieces.get(piecesOrder.get(i));
+      if (curPiece.contains(mouseX, mouseY)) {
+        if (compare() && clickedPiecesOrder.size() > 0) {
+          glyphOnSound.play();
+        } else{
+          glyphOffSound.play();
+        }
       }
     }
   }
