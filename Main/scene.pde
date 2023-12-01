@@ -64,7 +64,6 @@ class Scene {
       for (GameObject object : gameObjects) {
         object.draw();
       }
-      inventoryDisplay.draw();
       if (footstepsVolume >= whistlingStart) {
         if (millis() - flickerLastTime > 500) {
           if (flickerOn) {
@@ -78,6 +77,7 @@ class Scene {
           flickerLastTime = millis();
         }
       }
+      inventoryDisplay.draw();
     } else {
       if (backgroundImage!=null) {
         image(backgroundImage, 0, 0, wwidth, wheight);
